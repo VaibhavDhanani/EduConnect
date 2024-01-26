@@ -22,4 +22,9 @@ from final_project import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.home),
+    path('classes.html',views.classes),
+    path('class_details.html',views.class_details),
+    path('lecture.html',views.lecture),
+    path('assignment.html',views.assignment),
+    path('results.html',views.result),
 ]
