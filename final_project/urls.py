@@ -27,4 +27,6 @@ urlpatterns = [
     path('lecture.html',views.lecture),
     path('assignment.html',views.assignment),
     path('results.html',views.result),
+    path('aboutus.html',views.aboutus),
+    path('notes.html',views.notes),
 ]

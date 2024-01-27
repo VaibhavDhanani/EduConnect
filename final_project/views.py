@@ -18,3 +18,9 @@ def assignment(request):
 
 def result(request):
     return render(request,"results.html")
+
+def aboutus(request):
+    return render(request,"aboutus.html")
+
+def notes(request):
+    return render(request,"notes.html")
