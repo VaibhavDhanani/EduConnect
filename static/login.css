@@ -18,10 +18,6 @@ h1{
     margin: 0;
 }
 
-/* p{
-    /* fon */
-/* } */
-
 
 span{
     font-size: 12px;
@@ -191,4 +187,25 @@ button.ghost{
 .container.right-active .overlay-right{
     transform: translateX(20%);
     /* background-color: #333; */
+}
+
+label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 100%;
+    max-width: 229px;
+    background-color: #eee; 
+}
+
+select:focus {
+    border: 3px solid black;
 }
