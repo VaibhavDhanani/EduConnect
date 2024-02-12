@@ -43,15 +43,35 @@ document.addEventListener("DOMContentLoaded", function () {
 		// console.log("removed");
 	});
 
+	//! sign up code using firebase email/password method
 	const signup = document.getElementById("formSignup");
 	signup.addEventListener("submit", function (event) {
 		event.preventDefault();
-		const name = signup["name"].value; // Corrected from 'Name' to 'name'
-		const email = signup["email"].value; // Corrected from 'Email' to 'email'
-		const password = signup["password"].value; // Corrected from 'Password' to 'password'
+		const name = signup["name"].value;
+		const email = signup["email"].value;
+		const password = signup["password"].value;
 		console.log(name, email, password);
 
 		createUserWithEmailAndPassword(auth, email, password)
+			.then((userCredential) => {
+				window.location.href = "index.html";
+			})
+			.catch((error) => {
+				const errorCode = error.code;
+				const errorMessage = error.message;
+			});
+	});
+
+	//! sign in code using firebase email/password method
+	const signin = document.getElementById("formSignin");
+
+	signin.addEventListener("submit", function (event) {
+		event.preventDefault();
+
+		const email = signin["Email"].value;
+		const password = signin["Password"].value;
+
+		signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
 				window.location.href = "index.html";
 			})
