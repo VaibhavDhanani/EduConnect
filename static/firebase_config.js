@@ -1,7 +1,7 @@
 
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword , signInWithEmailAndPassword} from "firebase/auth";
     // TODO: Add SDKs for Firebase products that you want to use
     // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,5 +18,9 @@
 };
 
     // Initialize Firebase
+    const login = {getAuth , createUserWithEmailAndPassword , signInWithEmailAndPassword};
     const app = initializeApp(firebaseConfig);
-    export {app}
+    const auth = getAuth(app);
+    export {auth}
+    export {login}
+

@@ -1,3 +1,6 @@
+import {login} from "./firebase_config";
+import {auth} from "./firebase_config";
+
 document.addEventListener("DOMContentLoaded", function() {
     const container=document.getElementById('container')
     const signIn=document.getElementById('signIn-updated')
