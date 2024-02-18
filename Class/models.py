@@ -16,6 +16,7 @@ class Class(models.Model):
 class Student(models.Model):
     id = models.CharField(primary_key=True, max_length=50)
     name = models.CharField(max_length=100)
+
     # email = models.EmailField(_("Email"), max_length=254)
     # password = models.CharField(_("Password"), max_length=128)
     # def set_password(self, raw_password):
@@ -56,14 +57,12 @@ class Class_Teacher(models.Model):
         on_delete=models.CASCADE,
         to_field="code",
         db_column="class_id",
-        default="123456",
     )
     teacher_id = models.ForeignKey(
         Teacher,
         on_delete=models.CASCADE,
         to_field="id",
         db_column="teacher_id",
-        default="123456",
     )
 
     class Meta:
@@ -81,14 +80,12 @@ class Class_Student(models.Model):
         on_delete=models.CASCADE,
         to_field="code",
         db_column="class_id",
-        default="123456",
     )
     student_id = models.ForeignKey(
         Student,
         on_delete=models.CASCADE,
         to_field="id",
         db_column="student_id",
-        default="123456",
     )
 
     class Meta:
@@ -108,7 +105,6 @@ class Assignment(models.Model):
         on_delete=models.CASCADE,
         to_field="code",
         db_column="class_id",
-        default="123456",
     )
     asgmt_id = models.AutoField(primary_key=True)
 
@@ -125,7 +121,6 @@ class Test(models.Model):
         on_delete=models.CASCADE,
         to_field="code",
         db_column="class_id",
-        default="123456",
     )
 
     class Meta:
@@ -139,20 +134,19 @@ class Result(models.Model):
         on_delete=models.CASCADE,
         to_field='test_id',
         db_column='test_id',
-        default='123456'
     )
     student_id = models.ForeignKey(
         Student,
         on_delete=models.CASCADE,
         to_field="id",
         db_column="student_id",
-        default="123456",
     )
     marks = models.IntegerField()
     date = models.DateField(auto_now=False, auto_now_add=False)
 
     class Meta:
         db_table = 'Result'
+
 
 class Material(models.Model):
     material_id = models.AutoField(primary_key=True)
@@ -161,7 +155,6 @@ class Material(models.Model):
         on_delete=models.CASCADE,
         to_field="code",
         db_column="class_id",
-        default="123456",
     )
     title = models.CharField(max_length=50)
 
