@@ -48,13 +48,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		const name = signup["name"].value;
 		const email = signup["email"].value;
 		const password = signup["password"].value;
-		console.log(name, email, password);
+		const role = document.getElementById("role").value
 
 		createUserWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
 				let uid = userCredential.user.uid;
 				document.cookie = `uid=${uid}`
 				document.cookie = `name=${name}`
+				document.cookie = `role=${role}`
 				window.location.href = "index.html";
 			})
 			.catch((error) => {
