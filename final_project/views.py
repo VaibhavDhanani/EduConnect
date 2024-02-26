@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from Class.models import Student
+from Class.models import Teacher
 
 
 def login(request):
@@ -6,6 +8,13 @@ def login(request):
 
 
 def home(request):
+    if 'name' in request.COOKIES:
+        if request.COOKIES.get('role') == "Teacher":
+            record = Teacher(id=request.COOKIES.get('uid'),name=request.COOKIES.get('name'))
+            record.save()
+        elif request.COOKIES.get('role') == "Student":
+            record = Student(id=request.COOKIES.get('uid'),name=request.COOKIES.get('name'))
+            record.save()
     return render(request, "index.html")
 
 
