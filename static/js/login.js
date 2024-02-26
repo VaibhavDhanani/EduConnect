@@ -29,18 +29,16 @@ const login = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 document.addEventListener("DOMContentLoaded", function () {
-	const container = document.getElementById("container");
-	const signIn = document.getElementById("signIn-updated");
-	const signUp = document.getElementById("signup-updated");
+	const container = document.getElementById('container');
+	const registerBtn = document.getElementById('register');
+	const loginBtn = document.getElementById('login');
 
-	signUp.addEventListener("click", function () {
-		container.classList.add("right-active");
-		// console.log("added");
+	registerBtn.addEventListener('click', () => {
+		container.classList.add("active");
 	});
 
-	signIn.addEventListener("click", function () {
-		container.classList.remove("right-active");
-		// console.log("removed");
+	loginBtn.addEventListener('click', () => {
+		container.classList.remove("active");
 	});
 
 	//! sign up code using firebase email/password method
@@ -54,6 +52,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		createUserWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
+				let uid = userCredential.user.uid;
+				document.cookie = `uid=${uid}`
+				document.cookie = `name=${name}`
 				window.location.href = "index.html";
 			})
 			.catch((error) => {
@@ -73,6 +74,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
+				let uid = userCredential.user.uid;
+				document.cookie = `uid=${uid}`
 				window.location.href = "index.html";
 			})
 			.catch((error) => {
