@@ -1,8 +1,17 @@
 {% extends "base.html" %} {% block content %}
+
+<button
+  type="button"
+  class="mybtn"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop"
+>
+  +
+</button>
+
 <div id="main-content">
-  {% comment %}
-  <button class="button" onclick="createNewClass()">Click</button> {% endcomment%}
-  <a href="class_details.html">
+  {% for class in classes %}
+  <a href="class_details/{{class.subject}}">
     <div class="box">
       <img
         class="profile-img"
@@ -10,21 +19,13 @@
         alt="Professor Image"
       />
       <div class="text-container">
-        <h3 class="professor-name">Jatayu Bakshi</h3>
-        <p class="subject-name">Python</p>
+        <h3 class="professor-name">{{class.teachername}}</h3>
+        <p class="subject-name">{{class.subject}}</p>
       </div>
     </div>
   </a>
-  
+  {% endfor %}
   <!-- Button trigger modal -->
-  <button
-    type="button"
-    class="btn btn-primary"
-    data-bs-toggle="modal"
-    data-bs-target="#staticBackdrop"
-  >
-    New Class
-  </button>
 
   <!-- Modal -->
   <div
@@ -39,7 +40,9 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">
+            Enter the details
+          </h1>
           <button
             type="button"
             class="btn-close"
@@ -88,7 +91,7 @@
             >
               Close
             </button>
-            <input type="submit" class="btn btn-primary">
+            <input type="submit" class="btn btn-primary" />
           </div>
         </form>
       </div>

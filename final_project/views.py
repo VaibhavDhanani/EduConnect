@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from Class.models import Student
-from Class.models import Teacher
+from Class.models import *
 
 
 def login(request):
@@ -8,22 +7,27 @@ def login(request):
 
 
 def home(request):
-    if 'name' in request.COOKIES:
-        if request.COOKIES.get('role') == "Teacher":
-            record = Teacher(id=request.COOKIES.get('uid'),name=request.COOKIES.get('name'))
+    if "name" in request.COOKIES:
+        if request.COOKIES.get("role") == "Teacher":
+            record = Teacher(
+                id=request.COOKIES.get("uid"), name=request.COOKIES.get("name")
+            )
             record.save()
-        elif request.COOKIES.get('role') == "Student":
-            record = Student(id=request.COOKIES.get('uid'),name=request.COOKIES.get('name'))
+        elif request.COOKIES.get("role") == "Student":
+            record = Student(
+                id=request.COOKIES.get("uid"), name=request.COOKIES.get("name")
+            )
             record.save()
     return render(request, "index.html")
 
 
 def classes(request):
-    return render(request, "classes.html")
+    classes = Class.objects.all()
+    return render(request, "classes.html", context={"classes": classes})
 
 
-def class_details(request):
-    return render(request, "class_details.html")
+def class_details(request, extra):
+    return render(request, "class_details.html", context={"sub_name": extra})
 
 
 def lecture(request):

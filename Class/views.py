@@ -1,17 +1,41 @@
 from django.shortcuts import redirect, render
-
+import random
+import string
 from .models import Class
 
 
 # Create your views here.
+
+
+def generate_random_code(length=10):
+    while True:
+        code = "".join(random.choices(string.ascii_uppercase + string.digits, k=length))
+        if not Class.objects.filter(code=code).exists():
+            return code
+
+
+from django.shortcuts import render, redirect
+from .models import Class
+import random
+import string
+
+
+def generate_random_code(length=10):
+    return "".join(random.choices(string.ascii_uppercase + string.digits, k=length))
+
+
 def create_new_class(request):
-    if request.method == 'POST':
-        subject_name = request.POST.get('subject_name')
-        teacher_name = request.POST.get('teacher_name')
+    if request.method == "POST":
+        subject_name = request.POST.get("subject_name")
+        teacher_name = request.POST.get("teacher_name")
         if subject_name and teacher_name:
-            new_class = Class.objects.create(subject=subject_name, teachername=teacher_name)
-            return redirect('classes.html')  
+            code = generate_random_code()
+            new_class = Class.objects.create(
+                code=code, subject=subject_name, teachername=teacher_name
+            )
+            return redirect("classes.html")  # Redirect after successful form submission
         else:
-            return render(request, 'aboutus.html')
+            return render(request, "aboutus.html")
     else:
-        return render(request, 'lecture.html')
+        classes = Class.objects.all()
+        return render(request, "lecture.html", {"classes": classes})

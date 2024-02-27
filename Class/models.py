@@ -38,6 +38,7 @@ class Teacher(models.Model):
 
 class Lecture(models.Model):
     lec_id = models.AutoField(primary_key=True)
+    link = models.URLField(max_length=200, null=False)
     class_id = models.ForeignKey(
         Class,
         on_delete=models.CASCADE,

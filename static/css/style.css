@@ -104,7 +104,9 @@ footer {
 }
 .text-container {
   position: absolute;
-  bottom: 3;
+  bottom: 2;
+  left: 20;
+  color: rgb(9, 9, 120);
   width: 100%;
   text-align: center;
   padding: 10px;
@@ -126,7 +128,6 @@ footer {
 }
 .assignment {
   width: 80%;
-
 }
 .assignment .btn {
   padding: 10px 15px;
@@ -154,9 +155,44 @@ footer {
 }
 
 .extra {
-  margin: 20px 20px ;
+  margin: 20px 20px;
 }
 
-iframe{
+iframe {
   margin: 20px;
+}
+
+.mybtn {
+  position: fixed;
+  height: 80px;
+  width: 80px;
+  bottom: 60px;
+  right: 65px;
+  background-color: #258bea;
+  border-color: #258bea;
+  color: #fff;
+  border-radius: 45px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 40px;
+  z-index: 9;
+}
+
+.mybtn:hover,
+.mybtn:focus,
+.mybtn:active {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+}
+
+.mybtn:active {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+#sidema {
+  margin-left: 220px;
+  margin-top: 116px;
 }
