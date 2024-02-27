@@ -1,11 +1,17 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
 
-{% block content %}
-
-      <div id="main-content">
-        <div id="options-container">
-            <a href="lecture.html"><button class="button extra">Lecture</button></a><br>
-            <a href="assignment.html"><button class="button extra">Assignments</button></a>
-          </div>
-      </div>
+<div id="sidema">
+  <h1>{{sub_name}}</h1>
+  <p></p>
+</div>
+<br />
+<div id="main-content">
+  <div id="options-container">
+    <a href="lecture.html"><button class="button extra">Lecture</button></a
+    ><br />
+    <a href="assignment.html"
+      ><button class="button extra">Assignments</button></a
+    >
+  </div>
+</div>
 {% endblock content %}
