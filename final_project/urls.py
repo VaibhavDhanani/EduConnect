@@ -23,13 +23,14 @@ from final_project import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.login),
-    path("index.html", views.home),
-    path("classes.html", views.classes),
-    path("class_details/<str:extra>/", views.class_details),
-    path("lecture.html", views.lecture),
+    path("home.html", views.home,name='home'),
+    path("class_details/<str:course_name>/", views.class_details, name='class_details'),
+    path("lecture/<str:course_name>", views.lecture,name='lecture'),
+    path("classes", views.classes,name='classes'),
     path("assignment.html", views.assignment),
-    path("results.html", views.result),
-    path("aboutus.html", views.aboutus),
-    path("notes.html", views.notes),
+    path("results", views.result,name='results'),
+    path("aboutus", views.aboutus,name='aboutus'),
+    path("notes", views.notes,name='notes'),
     path("", include("Class.urls")),
 ]
+
