@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 import random
 import string
 from .models import Class
+from django.urls import reverse
 
 
 # Create your views here.
@@ -12,12 +13,6 @@ def generate_random_code(length=10):
         code = "".join(random.choices(string.ascii_uppercase + string.digits, k=length))
         if not Class.objects.filter(code=code).exists():
             return code
-
-
-from django.shortcuts import render, redirect
-from .models import Class
-import random
-import string
 
 
 def generate_random_code(length=10):
@@ -33,7 +28,7 @@ def create_new_class(request):
             new_class = Class.objects.create(
                 code=code, subject=subject_name, teachername=teacher_name
             )
-            return redirect("classes.html")  # Redirect after successful form submission
+            return redirect(reverse('classes'))
         else:
             return render(request, "aboutus.html")
     else:

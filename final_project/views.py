@@ -18,7 +18,7 @@ def home(request):
                 id=request.COOKIES.get("uid"), name=request.COOKIES.get("name")
             )
             record.save()
-    return render(request, "index.html")
+    return render(request, "home.html")
 
 
 def classes(request):
@@ -26,12 +26,13 @@ def classes(request):
     return render(request, "classes.html", context={"classes": classes})
 
 
-def class_details(request, extra):
-    return render(request, "class_details.html", context={"sub_name": extra})
+def class_details(request,course_name):
+    context = {'course_name': course_name}
+    return render(request, "class_details.html", context)
 
-
-def lecture(request):
-    return render(request, "lecture.html")
+def lecture(request,course_name):
+    context = {'course_name': course_name}
+    return render(request, "lecture.html", context)
 
 
 def assignment(request):

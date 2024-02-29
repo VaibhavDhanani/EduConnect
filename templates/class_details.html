@@ -1,17 +1,21 @@
 {% extends "base.html" %} {% block content %}
 
 <div id="sidema">
-  <h1>{{sub_name}}</h1>
+  <h1>{{course_name}}</h1>
   <p></p>
 </div>
 <br />
 <div id="main-content">
   <div id="options-container">
-    <a href="lecture.html"><button class="button extra">Lecture</button></a
-    ><br />
-    <a href="assignment.html"
-      ><button class="button extra">Assignments</button></a
-    >
+    <a href="{% url 'lecture' course_name  %}">
+      <button class="button extra">Lecture</button>
+  </a>
+  <br />
+  
+      <a href="assignment.html">
+          <button class="button extra">Assignments</button>
+      </a>
   </div>
 </div>
+
 {% endblock content %}

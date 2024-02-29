@@ -11,7 +11,7 @@
 
 <div id="main-content">
   {% for class in classes %}
-  <a href="class_details/{{class.subject}}">
+  <a href="{% url 'class_details' class.subject %}">
     <div class="box">
       <img
         class="profile-img"
