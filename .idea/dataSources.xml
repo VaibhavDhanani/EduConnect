@@ -20,5 +20,12 @@
         </library>
       </libraries>
     </data-source>
+    <data-source source="LOCAL" name="educonnect@localhost" uuid="15d8cae9-823b-4df7-9505-eaeafe20c5ea">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/educonnect</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

@@ -70,8 +70,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	signin.addEventListener("submit", function (event) {
 		event.preventDefault();
 
-		const email = signin["Email"].value;
-		const password = signin["Password"].value;
+		const email = signin["email"].value;
+		const password = signin["password"].value;
 
 		signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {

@@ -1,1 +1,6 @@
 Class/migrations/*
+venv_/*
+venv_name/*
+.venv/*
+.vscode
+final_project/.idea/*
