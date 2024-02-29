@@ -6,7 +6,7 @@ from django.utils.translation import gettext as _
 # Create your models here.
 class Class(models.Model):
     code = models.CharField(max_length=10, primary_key=True)
-    subject = models.CharField(max_length=25)
+    subject = models.CharField(max_length=25,unique=True)
     teachername = models.CharField(max_length=30)
 
     class Meta:
@@ -38,18 +38,19 @@ class Teacher(models.Model):
 
 class Lecture(models.Model):
     lec_id = models.AutoField(primary_key=True)
-    link = models.URLField(max_length=200, null=False)
-    class_id = models.ForeignKey(
+    link = models.URLField(max_length=250, null=False)
+    class_name = models.ForeignKey(
         Class,
         on_delete=models.CASCADE,
-        to_field="code",
-        db_column="class_id",
+        to_field="subject",
+        db_column="class_name",
         default="123456",
     )
     title = models.CharField(max_length=30)
 
     class Meta:
         db_table = "Lecture"
+
 
 
 class Class_Teacher(models.Model):

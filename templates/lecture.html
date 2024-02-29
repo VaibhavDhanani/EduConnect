@@ -1,22 +1,127 @@
 {% extends "base.html" %} {% block content %}
+
+<button
+  type="button"
+  class="mybtn"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop"
+>
+  +
+</button>
+
+<h1>{{course_name}}</h1>
+
 <div id="main-content">
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">
+            Enter the Lecture details
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <form
+          id="classForm"
+          method="post"
+          action="{% url 'create_new_lecture' %}"
+        >
+          <div class="modal-body">
+            {% csrf_token %}
+            <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                ><b>Title: </b></span
+              >
+              <input
+                type="text"
+                name="lecture_title"
+                id="lecture_title"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                requried
+              />
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                ><b>Class Name: </b></span
+              >
+              <select
+                name="class_name"
+                id="class_name"
+                class="form-select"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                requried
+              >
+                {% for class in classes %}
+                <option value="{{ class.subject }}">{{ class.subject }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                ><b>Lecture Link: </b></span
+              >
+              <input
+                type="url"
+                name="lecture_link"
+                id="lecture_link"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                requried
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <input type="submit" class="btn btn-primary" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
-<h1> {{course_name}}</h1>
-
-  <iframe
-    width="560"
-    height="315"
-    src="https://www.youtube.com/embed/snYu2JUqSWs"
-    frameborder="0"
-    allowfullscreen
-  ></iframe>
-  <iframe
-    width="560"
-    height="315"
-    src="https://www.youtube.com/embed/rfscVS0vtbw"
-    frameborder="0"
-    allowfullscreen
-  ></iframe>
+  <div class="d-flex flex-row">
+    {% for lec in lectures %} {% if lec.class_name.subject == course_name %}
+    <div class="card flex" style="width: 28rem; margin-left:10px; border: 2px #1A182A solid">
+      <iframe
+        class="card-img-top"
+        width="560"
+        height="315"
+        src="{{ lec.link }}"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+      <div class="card-body">
+        <h4>{{lec.title}}</h4>
+      </div>
+    </div>
+    {% endif %} {% endfor %}
+  </div>
 </div>
 
 {% endblock content %}
