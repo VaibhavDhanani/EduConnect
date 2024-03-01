@@ -13,12 +13,24 @@ def home(request):
                 id=request.COOKIES.get("uid"), name=request.COOKIES.get("name")
             )
             record.save()
+            return render(request, "classes.html")
         elif request.COOKIES.get("role") == "Student":
             record = Student(
                 id=request.COOKIES.get("uid"), name=request.COOKIES.get("name")
             )
             record.save()
-    return render(request, "home.html")
+            return render(request, "")  # // Student class code to add here
+    elif "uid" in request.COOKIES:
+        uid = request.COOKIES.get("uid")
+        t_uid = Teacher.objects.filter(id=uid)
+        if t_uid.exists():
+            return render(request, "classes.html")
+
+        s_uid = Student.objects.filter(id=uid)
+        if s_uid.exists():
+            return render(request, "")  # // Student class code to add here
+    else:
+        return render(request, "login.html")
 
 
 def classes(request):
@@ -26,11 +38,12 @@ def classes(request):
     return render(request, "classes.html", context={"classes": classes})
 
 
-def class_details(request,course_name):
+def class_details(request, course_name):
     context = {'course_name': course_name}
     return render(request, "class_details.html", context)
 
-def lecture(request,course_name):
+
+def lecture(request, course_name):
     classes = Class.objects.all()
     lectures = Lecture.objects.all()
     context = {
