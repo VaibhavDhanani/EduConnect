@@ -57,5 +57,17 @@ def create_new_lecture(request):
         return render(request, 'error_page.html', {'message': 'Invalid request method'})
 
 
-        
+def new_material_upload(request):
+    if request.method == "POST":
+        title = request.POST.get('title')
+        link = request.POST.get('url')
+        code = request.COOKIES.get('code')
+        class_obj = Class.objects.get(code=code)
+        if code and title and link:
+            material = Material(
+                title=title, link=link, class_id=class_obj
+            )
+            material.save()
+            return redirect(reverse('Materials'))
+        return render(request, "home.html")
     

@@ -33,5 +33,4 @@ urlpatterns = [
     path("notes", views.notes, name='notes'),
     path("", include("Class.urls")),
     path("Materials", views.materials, name='Materials'),
-    path("new_material_upload", views.new_material_upload, name='new_material_upload'),
 ]

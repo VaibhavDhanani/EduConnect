@@ -69,12 +69,12 @@
 
         let uploadButton = document.getElementById('upload');
         let uploadSpinner = document.getElementById('spinner');
-        uploadSpinner.classList.add('hidden'); // Hide spinner button
+        uploadSpinner.classList.add('hidden'); 
 
         let upl = () =>
         {
             uploadButton.style.opacity = '.5';
-            uploadSpinner.classList.remove('hidden'); // Show spinner button
+            uploadSpinner.classList.remove('hidden'); 
             let file = document.getElementById('formFile').files[0];
             let title = document.getElementById('title').value;
             let storageRef = ref(storage, `Materials/${file.name}`);
@@ -83,7 +83,7 @@
             }).then(() => {
                 getDownloadURL(storageRef).then((url) => {
                     document.getElementById('url').value = url;
-                    uploadSpinner.classList.add('hidden'); // Hide spinner button
+                    uploadSpinner.classList.add('hidden'); 
                     uploadButton.style.opacity = '1';
                 });
             });

@@ -68,9 +68,7 @@
                 aria-describedby="inputGroup-sizing-sm"
                 requried
               >
-                {% for class in classes %}
-                <option value="{{ class.subject }}">{{ class.subject }}</option>
-                {% endfor %}
+                <option value="{{ course_name }}">{{ course_name }}</option>  
               </select>
             </div>
             <div class="input-group input-group-sm mb-3">
@@ -105,7 +103,10 @@
 
   <div class="d-flex flex-row">
     {% for lec in lectures %} {% if lec.class_name.subject == course_name %}
-    <div class="card flex" style="width: 28rem; margin-left:10px; border: 2px #1A182A solid">
+    <div
+      class="card flex"
+      style="width: 28rem; margin-left: 10px; border: 2px #1a182a solid"
+    >
       <iframe
         class="card-img-top"
         width="560"
