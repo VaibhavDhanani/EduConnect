@@ -152,13 +152,14 @@ class Result(models.Model):
 
 class Material(models.Model):
     material_id = models.AutoField(primary_key=True)
-    lass_id = models.ForeignKey(
+    class_id = models.ForeignKey(
         Class,
         on_delete=models.CASCADE,
         to_field="code",
         db_column="class_id",
     )
     title = models.CharField(max_length=50)
+    link = models.URLField(max_length=250, null=False)
 
     class Meta:
         db_table = 'Material'

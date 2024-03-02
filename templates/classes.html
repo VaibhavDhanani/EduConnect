@@ -11,7 +11,9 @@
 
 <div id="main-content">
   {% for class in classes %}
-  <a href="{% url 'class_details' class.subject %}">
+  <a  id="class_anchor">
+  <input type="hidden" value="{{ class.code }}" id="hidden_input">
+  <input type="hidden" value="{{ class.subject }}" id="hidden_name">
     <div class="box">
       <img
         class="profile-img"
@@ -98,4 +100,18 @@
     </div>
   </div>
 </div>
+
+<script>
+    let class_anchors = document.querySelectorAll("#class_anchor");
+    class_anchors.forEach((anchor) =>{
+        anchor.addEventListener("click" , (event) =>{
+            let hidden_input = anchor.querySelector("#hidden_input");
+            let class_code = hidden_input.value;
+            let hidden_name = anchor.querySelector("#hidden_name");
+            document.cookie = `code=${class_code}`;
+            window.location.href = `/class_details/${hidden_name.value}`;
+        })
+    })
+
+</script>
 {% endblock content %}

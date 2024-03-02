@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from Class.models import *
+from django.http import HttpResponse
 
 
 def login(request):
@@ -35,7 +36,14 @@ def home(request):
 
 def classes(request):
     classes = Class.objects.all()
-    return render(request, "classes.html", context={"classes": classes})
+
+    # Create the base HTTP response object
+    response = render(request, "classes.html", context={"classes": classes})
+
+    if "code" in request.COOKIES:
+        response.delete_cookie("code")
+
+    return response
 
 
 def class_details(request, course_name):
@@ -68,3 +76,22 @@ def aboutus(request):
 
 def notes(request):
     return render(request, "notes.html")
+
+
+def materials(request):
+    return render(request, "Materials.html")
+
+
+def new_material_upload(request):
+    if request.method == "POST":
+        title = request.POST.get('title')
+        link = request.POST.get('url')
+        code = request.COOKIES.get('code')
+        class_obj = Class.objects.get(code=code)
+        if code and title and link:
+            material = Material(
+                title=title, link=link, class_id=class_obj
+            )
+            material.save()
+            return render(request, "Materials.html")
+        return render(request, "Materials.html")

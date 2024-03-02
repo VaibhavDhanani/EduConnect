@@ -1,0 +1,101 @@
+{% extends "base.html" %} {% block content %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Upload Materials
+    </button>
+    <style>
+    .hidden{
+        display: none;
+        opacity: 0;
+    }
+    </style>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Upload Material</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form action="{% url 'new_material_upload' %}"  method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Upload Material</label>
+                            <input class="form-control" type="file" id="formFile" name="file">
+                            <input type="hidden" name="url" id="url">
+                        </div>
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" name="title">
+                        </div>
+                        <div class="upload-container d-flex align-items-center">
+                            <button type="button" id="upload" class="btn btn-primary">Upload</button>
+                            <div class="spinner-border text-dark"  style="margin-left: 5px" role="status" id="spinner">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="module" >
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+        import { getStorage, ref, uploadBytesResumable, getDownloadURL  , uploadBytes} from "https://www.gstatic.com/firebasejs/10.7.2/firebase-storage.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDoKKxEn-IChCtdV8BuoohMf7TMZyZXZxk",
+            authDomain: "educonnect-6789e.firebaseapp.com",
+            projectId: "educonnect-6789e",
+            storageBucket: "educonnect-6789e.appspot.com",
+            messagingSenderId: "422805237793",
+            appId: "1:422805237793:web:7fcf5afa6d241f935b3360",
+            measurementId: "G-XHXM785F62",
+        };
+        let app = initializeApp(firebaseConfig);
+        let storage = getStorage(app);
+        document.addEventListener('DOMContentLoaded', (event) => {
+
+
+        let uploadButton = document.getElementById('upload');
+        let uploadSpinner = document.getElementById('spinner');
+        uploadSpinner.classList.add('hidden'); // Hide spinner button
+
+        let upl = () =>
+        {
+            uploadButton.style.opacity = '.5';
+            uploadSpinner.classList.remove('hidden'); // Show spinner button
+            let file = document.getElementById('formFile').files[0];
+            let title = document.getElementById('title').value;
+            let storageRef = ref(storage, `Materials/${file.name}`);
+
+            uploadBytes(storageRef, file).then((snapshot) => {
+            }).then(() => {
+                getDownloadURL(storageRef).then((url) => {
+                    document.getElementById('url').value = url;
+                    uploadSpinner.classList.add('hidden'); // Hide spinner button
+                    uploadButton.style.opacity = '1';
+                });
+            });
+
+
+        }
+            uploadButton.addEventListener('click', upl);
+
+        });
+
+    </script>
+
+
+
+{% endblock content %}
