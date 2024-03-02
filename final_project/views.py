@@ -63,7 +63,8 @@ def lecture(request, course_name):
 
 
 def assignment(request,course_name):
-    context= { 'course_name': course_name}
+    assignments = Assignment.objects.all()
+    context= { 'course_name': course_name, 'assignments': assignments }
     return render(request, "assignment.html", context)
 
 

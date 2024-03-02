@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				document.cookie = `uid=${uid}`
 				document.cookie = `name=${name}`
 				document.cookie = `role=${role}`
-				window.location.href = "home.html";
+				window.location.href = "home";
 			})
 			.catch((error) => {
 				const errorCode = error.code;
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.then((userCredential) => {
 				let uid = userCredential.user.uid;
 				document.cookie = `uid=${uid}`
-				window.location.href = "home.html";
+				window.location.href = "home";
 			})
 			.catch((error) => {
 				const errorCode = error.code;

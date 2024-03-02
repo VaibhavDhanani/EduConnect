@@ -28,46 +28,61 @@ def create_new_class(request):
             new_class = Class.objects.create(
                 code=code, subject=subject_name, teachername=teacher_name
             )
-            return redirect(reverse('classes'))
+            return redirect(reverse("classes"))
         else:
             return render(request, "aboutus.html")
     else:
         classes = Class.objects.all()
         return render(request, "lecture.html", {"classes": classes})
 
+
 def create_new_lecture(request):
     if request.method == "POST":
-        title = request.POST.get('lecture_title')
-        class_name_str = request.POST.get('class_name')  
+        title = request.POST.get("lecture_title")
+        class_name_str = request.POST.get("class_name")
         try:
             class_instance = Class.objects.get(subject=class_name_str)
         except Class.DoesNotExist:
-            return render(request, 'error_page.html', {'message': 'Class does not exist'})
-        
-        lec_link = request.POST.get('lecture_link')
-        
+            return render(
+                request, "error_page.html", {"message": "Class does not exist"}
+            )
+
+        lec_link = request.POST.get("lecture_link")
+
         if title and class_instance and lec_link:
             new_lecture = Lecture.objects.create(
                 title=title, class_name=class_instance, link=lec_link
             )
-            return redirect(reverse('lecture', kwargs={'course_name': class_name_str}))  
-        else: 
-            return render(request, 'error_page.html', {'message': 'Missing required fields'})
+            return redirect(reverse("lecture", kwargs={"course_name": class_name_str}))
+        else:
+            return render(
+                request, "error_page.html", {"message": "Missing required fields"}
+            )
     else:
-        return render(request, 'error_page.html', {'message': 'Invalid request method'})
+        return render(request, "error_page.html", {"message": "Invalid request method"})
 
 
 def new_material_upload(request):
     if request.method == "POST":
-        title = request.POST.get('title')
-        link = request.POST.get('url')
-        code = request.COOKIES.get('code')
+        title = request.POST.get("title")
+        link = request.POST.get("url")
+        code = request.COOKIES.get("code")
         class_obj = Class.objects.get(code=code)
         if code and title and link:
-            material = Material(
-                title=title, link=link, class_id=class_obj
-            )
+            material = Material(title=title, link=link, class_id=class_obj)
             material.save()
-            return redirect(reverse('Materials'))
+            return redirect(reverse("Materials"))
         return render(request, "home.html")
-    
+
+
+def create_new_assignment(request):
+    if request.method == "POST":
+        title = request.POST.get("assignment_title")
+        date = request.POST.get("sub_date")
+        class_name = request.POST.get("class_name")
+        class_obj = Class.objects.get(subject=class_name)
+        if date and title and class_name:
+            assignment = Assignment(title=title, date=date, class_name=class_obj)
+            assignment.save()
+            return redirect(reverse("Assignments", kwargs={"course_name": class_name}))
+        return render(request, "home.html")

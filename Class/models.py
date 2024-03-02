@@ -100,15 +100,16 @@ class Class_Student(models.Model):
 
 
 class Assignment(models.Model):
+    asgmt_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50)
     date = models.DateField(auto_now=False, auto_now_add=False)
-    class_id = models.ForeignKey(
+    class_name = models.ForeignKey(
         Class,
         on_delete=models.CASCADE,
-        to_field="code",
-        db_column="class_id",
+        to_field="subject",
+        db_column="class_name",
+        null=False,
     )
-    asgmt_id = models.AutoField(primary_key=True)
 
     class Meta:
         db_table = 'Assignment'
