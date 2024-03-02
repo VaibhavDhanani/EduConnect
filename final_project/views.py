@@ -20,7 +20,7 @@ def home(request):
                 id=request.COOKIES.get("uid"), name=request.COOKIES.get("name")
             )
             record.save()
-            return render(request, "")  # // Student class code to add here
+            return render(request, "home.html")  # // Student class code to add here
     elif "uid" in request.COOKIES:
         uid = request.COOKIES.get("uid")
         t_uid = Teacher.objects.filter(id=uid)
@@ -29,7 +29,7 @@ def home(request):
 
         s_uid = Student.objects.filter(id=uid)
         if s_uid.exists():
-            return render(request, "")  # // Student class code to add here
+            return render(request, "home.html")  # // Student class code to add here
     else:
         return render(request, "login.html")
 
@@ -62,8 +62,10 @@ def lecture(request, course_name):
     return render(request, "lecture.html", context)
 
 
-def assignment(request):
-    return render(request, "assignment.html")
+def assignment(request,course_name):
+    assignments = Assignment.objects.all()
+    context= { 'course_name': course_name, 'assignments': assignments }
+    return render(request, "assignment.html", context)
 
 
 def result(request):
@@ -81,17 +83,3 @@ def notes(request):
 def materials(request):
     return render(request, "Materials.html")
 
-
-def new_material_upload(request):
-    if request.method == "POST":
-        title = request.POST.get('title')
-        link = request.POST.get('url')
-        code = request.COOKIES.get('code')
-        class_obj = Class.objects.get(code=code)
-        if code and title and link:
-            material = Material(
-                title=title, link=link, class_id=class_obj
-            )
-            material.save()
-            return render(request, "Materials.html")
-        return render(request, "Materials.html")

@@ -12,11 +12,12 @@
   </a>
   <br />
   
-      <a href="assignment.html">
+      <a href="{% url 'Assignments' course_name  %}">
           <button class="button extra">Assignments</button>
       </a>
       <br />
-      <a href="{% url 'Materials' %}"><button class="button extra">Materials</button></a>
+      <a href="{% url 'Materials' %}">
+        <button class="button extra">Materials</button></a>
   </div>
 </div>
 

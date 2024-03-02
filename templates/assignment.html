@@ -1,26 +1,122 @@
 {% extends "base.html" %} {% block content %}
 <div class="content">
-  <div class="assignment">
-    <div class="btn">
-      <p>Software Engineering</p>
-      <p>Assignment 1:</p>
-      <button>Submit</button>
+  <button
+    type="button"
+    class="mybtn"
+    data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop"
+  >
+    +
+  </button>
+
+  {% comment %}
+  <h1>{{course_name}}</h1>
+  {% endcomment %}
+
+  <div id="main-content">
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              Enter the Lecture details
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <form
+            id="classForm"
+            method="post"
+            action="{% url 'create_new_assignment' %}"
+          >
+            <div class="modal-body">
+              {% csrf_token %}
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-sm"
+                  ><b>Title: </b></span
+                >
+                <input
+                  type="text"
+                  name="assignment_title"
+                  id="assignment_title"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                  requried
+                />
+              </div>
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-sm"
+                  ><b>Submission Date: </b></span
+                >
+                <input
+                  type="date"
+                  name="sub_date"
+                  id="sub_date"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                  requried
+                />
+              </div>
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-sm"
+                  ><b>Class : </b></span
+                >
+                <select
+                  name="class_name"
+                  id="class_name"
+                  class="form-select"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                  requried
+                >
+                  <option value="{{ course_name }}">{{ course_name }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <input type="submit" class="btn btn-primary" />
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="btn">
-      <p>Software Engineering</p>
-      <p>Assignment 2:</p>
-      <button>Submit</button>
+    {% for asmt in assignments %} 
+    {% if asmt.class_name.subject == course_name%}
+    <div class="assignment card" style="width: 18rem">
+      <div class="btn">
+        <p>{{asmt.class_name.subject}}</p>
+        <p>{{asmt.title}}</p>
+        <p>Due: <b>{{asmt.date}} </b></p>
+        <form method="post" action="{% url 'Assignments' course_name  %}">
+          {% csrf_token %}
+          <input class="" type="file" id="formFile" name="file" />
+          <input type="submit" />
+        </form>
+      </div>
     </div>
-    <div class="btn">
-      <p>Software Engineering</p>
-      <p>Assignment 3:</p>
-      <button>Submit</button>
-    </div>
-    <div class="btn">
-      <p>Software Engineering</p>
-      <p>Assignment 4:</p>
-      <button>Submit</button>
-    </div>
+    {% endif %} {% endfor %}
   </div>
+  {% endblock content %}
 </div>
-{% endblock content %}
