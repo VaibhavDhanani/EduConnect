@@ -62,8 +62,9 @@ def lecture(request, course_name):
     return render(request, "lecture.html", context)
 
 
-def assignment(request):
-    return render(request, "assignment.html")
+def assignment(request,course_name):
+    context= { 'course_name': course_name}
+    return render(request, "assignment.html", context)
 
 
 def result(request):
