@@ -13,8 +13,26 @@
     display: none;
     opacity: 0;
   }
+  .custom-link {
+    transition: background-color 0.3s ease;
+  }
+  .custom-link:hover {
+    background-color: #f0f0f0;
+    color: #007bff;
+  }
 </style>
 
+{% for material in materials %}
+{% comment %} {{  material.class_id.code}} {{class_code.code }}<br> {% endcomment %}
+{% if material.class_id.code == class_code.code %}
+<div>
+  <h1>{{ material.title }}</h1>
+  <p>
+    <a href="{{ material.link }}" class="btn btn-primary custom-link" target="_blank">View Material</a>
+  </p>
+</div>
+{% endif %}
+{% endfor %}
 <!-- Modal -->
 <div
   class="modal fade"

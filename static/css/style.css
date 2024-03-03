@@ -1,7 +1,7 @@
 .mybtn {
   position: fixed;
-  height: 80px;
-  width: 80px;
+  height: 50px;
+  width: 50px;
   bottom: 60px;
   right: 65px;
   background-color: #258bea;
@@ -11,7 +11,7 @@
   padding: 5px 10px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 40px;
+  font-size: 25px;
   z-index: 9;
 }
 
