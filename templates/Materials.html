@@ -1,27 +1,103 @@
 {% extends "base.html" %} {% block content %}
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Upload Materials
-    </button>
-    <style>
-    .hidden{
-        display: none;
-        opacity: 0;
-    }
-    .notes{
-        padding: 10px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
-    .card {
-        margin: 10px; /* Add margin for spacing between cards */
-        width: 300px; /* Set fixed card width for responsive layout */
-        border: 1px solid #ddd; /* Add a border to cards */
-        border-radius: 4px; /* Add rounded corners for better looks */
-    }
-    </style>
+<!-- Button trigger modal -->
+<button
+  type="button"
+  class="mybtn"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop"
+>
+  +
+</button>
+<style>
+  .hidden {
+    display: none;
+    opacity: 0;
+  }
+  .custom-link {
+    transition: background-color 0.3s ease;
+  }
+  .custom-link:hover {
+    background-color: #f0f0f0;
+    color: #007bff;
+  }
+</style>
 
+{% for material in materials %}
+{% comment %} {{  material.class_id.code}} {{class_code.code }}<br> {% endcomment %}
+{% if material.class_id.code == class_code.code %}
+<div>
+  <h1>{{ material.title }}</h1>
+  <p>
+    <a href="{{ material.link }}" class="btn btn-primary custom-link" target="_blank">View Material</a>
+  </p>
+</div>
+{% endif %}
+{% endfor %}
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Upload Material</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          action="{% url 'new_material_upload' %}"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Upload Material</label>
+            <input class="form-control" type="file" id="formFile" name="file" />
+            <input type="hidden" name="url" id="url" />
+          </div>
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" />
+          </div>
+          <div class="upload-container d-flex align-items-center">
+            <button type="button" id="upload" class="btn btn-primary">
+              Upload
+            </button>
+            <div
+              class="spinner-border text-dark"
+              style="margin-left: 5px"
+              role="status"
+              id="spinner"
+            >
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
     <!-- Modal -->
     <div class="modal fade"  id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">

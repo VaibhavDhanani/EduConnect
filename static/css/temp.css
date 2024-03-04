@@ -1,0 +1,164 @@
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  background-color: #f1f1f1;
+  width: auto;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 15px;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+}
+footer {
+  position: absolute;
+  bottom: 0%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #333;
+  color: white;
+}
+.row {
+  margin-left: 35%;
+  margin-top: 20px;
+  align-self: flex-end;
+}
+
+#main-container {
+  display: flex;
+}
+.button {
+  display: inline-block;
+  height: 50px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid #3498db;
+  border-radius: 5px;
+  color: #3498db;
+  background-color: #ffffff;
+  transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+}
+
+.button:hover {
+  background-color: #3498db;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+#sidebar {
+  width: 200px;
+  height: 100%;
+  background-color: #333;
+  overflow-x: hidden;
+  padding-top: 100px;
+  transition: 0.5s;
+  position: fixed;
+}
+
+#sidebar a {
+  padding: 15px 25px;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+  margin-left: 20px;
+}
+
+#sidebar a:hover {
+  color: #f1f1f1;
+}
+
+#main-content {
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-left: 250px;
+  margin-top: 100px;
+}
+
+.box {
+  width: 300px;
+  height: 300px;
+  margin-bottom: 20px;
+  background-color: white;
+  padding: 15px;
+  margin: 15px;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.text-container {
+  position: absolute;
+  bottom: 2px;
+  left: 25px;
+  color: rgb(9, 9, 120);
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+}
+.profile-img {
+  margin-left: 20%;
+  margin-top: 5%;
+  width: 164px;
+  margin-left: 29px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.content {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+}
+.assignment {
+  width: 80%;
+}
+.assignment .btn {
+  padding: 10px 15px;
+  background-color: white;
+  border: 2px black solid;
+  margin: 20px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.notes {
+  margin-top: 7rem;
+}
+
+#options-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.extra {
+  margin: 20px 20px;
+}
+
+iframe {
+  margin: 20px;
+}
+

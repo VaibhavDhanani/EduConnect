@@ -31,6 +31,6 @@ urlpatterns = [
     path("aboutus", views.aboutus, name='aboutus'),
     path("notes", views.notes, name='notes'),
     path("", include("Class.urls")),
-    path("Materials", views.materials, name='Materials'),
+    path("Materials/<str:course_name>", views.materials, name='Materials'),
     path("Assignments/<str:course_name>", views.assignment, name='Assignments'),
 ]

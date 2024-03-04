@@ -80,6 +80,9 @@ def notes(request):
     return render(request, "notes.html")
 
 
-def materials(request):
-    return render(request, "Materials.html")
+def materials(request,course_name):
+    materials =Material.objects.all()  
+    class_data = Class.objects.filter(subject=course_name).first()
+    context={"materials": materials, "class_code": class_data}
+    return render(request, "Materials.html", context)
 
