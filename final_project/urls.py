@@ -23,7 +23,7 @@ from final_project import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.login),
-    path("home", views.home, name='home'),
+    path("home/", views.home, name='home'),
     path("class_details/<str:course_name>/", views.class_details, name='class_details'),
     path("lecture/<str:course_name>", views.lecture, name='lecture'),
     path("classes", views.classes, name='classes'),

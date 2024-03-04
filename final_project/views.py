@@ -20,7 +20,7 @@ def home(request):
                 id=request.COOKIES.get("uid"), name=request.COOKIES.get("name")
             )
             record.save()
-            return render(request, "home.html")  # // Student class code to add here
+            return render(request, "")  # // Student class code to add here
     elif "uid" in request.COOKIES:
         uid = request.COOKIES.get("uid")
         t_uid = Teacher.objects.filter(id=uid)
@@ -29,7 +29,7 @@ def home(request):
 
         s_uid = Student.objects.filter(id=uid)
         if s_uid.exists():
-            return render(request, "home.html")  # // Student class code to add here
+            return render(request, "")  # // Student class code to add here
     else:
         return render(request, "login.html")
 
