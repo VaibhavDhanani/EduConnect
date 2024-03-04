@@ -71,7 +71,7 @@ def new_material_upload(request):
         if code and title and link:
             material = Material(title=title, link=link, class_id=class_obj)
             material.save()
-            return redirect(reverse("Materials"))
+            return redirect(reverse("Materials", kwargs={"course_name": class_obj.subject}))
         return render(request, "home.html")
 
 

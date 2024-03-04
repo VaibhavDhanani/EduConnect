@@ -1,23 +1,65 @@
 {% extends "base.html" %} {% block content %}
 
-<div id="sidema">
-  <h1>{{course_name}}</h1>
-  <p></p>
+<div>
+  <h1
+    style="
+      text-align: center;
+      font-family: math;
+      text-align: center;
+      font-size: 2.5rem;
+      color: #a31c00;
+      margin-bottom: 20px;
+    "
+  >
+    {{course_name}}
+  </h1>
 </div>
 <br />
-<div id="main-content">
-  <div id="options-container">
-    <a href="{% url 'lecture' course_name  %}">
-      <button class="button extra">Lecture</button>
-  </a>
-  <br />
-  
-      <a href="{% url 'Assignments' course_name  %}">
-          <button class="button extra">Assignments</button>
-      </a>
-      <br />
-      <a href="{% url 'Materials' %}">
-        <button class="button extra">Materials</button></a>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-10"> 
+      <div id="options-container" class="d-flex justify-content-between"> 
+        <div class="card" style="width: 30rem; margin-right: 20px;"> 
+          <img
+            src="https://media.istockphoto.com/id/1480095869/photo/student-or-man-use-computer-for-elearning-education-online-internet-technology-webinar-online.webp?b=1&s=170667a&w=0&k=20&c=lAFPQOr_Bvjfr1235EcosGYhr4KgUtuBW1jzMqMU05w="
+            class="card-img-top"
+            alt="..."
+            height="240"
+          />
+          <div class="card-body">
+            <h5 class="card-title">Lecture</h5>
+            <p class="card-text">Producing captivating video lectures to enhance student learning.</p>
+            <a href="{% url 'lecture' course_name  %}" class="btn btn-primary">Lecture</a>
+          </div>
+        </div>
+        <div class="card" style="width: 30rem; margin-right: 20px;"> 
+          <img
+            src="https://img.freepik.com/free-vector/hand-drawn-college-entrance-exam-illustration_52683-112608.jpg?size=626&ext=jpg"
+            class="card-img-top"
+            alt="..."
+            height="240"
+          />
+          <div class="card-body">
+            <h5 class="card-title">Assignments</h5>
+            <p class="card-text">Design an engaging and innovative assignment to facilitate student learning.</p>
+            <a href="{% url 'Assignments' course_name  %}" class="btn btn-primary">Assignments</a>
+          </div>
+        </div>
+        <div class="card" style="width: 30rem;"> 
+          <img
+            src="https://img.freepik.com/free-vector/e-learning-isometric-concept_1284-16835.jpg?t=st=1709447071~exp=1709450671~hmac=2ade8a8cd0a6064417f31bdc1898eb8d93983b4697397f08047f064500fdf6af&w=360"
+            class="card-img-top"
+            alt="..."
+            height="240"
+          />
+          <div class="card-body">
+            <h5 class="card-title">Material</h5>
+            <p class="card-text">Upload awesome materials to aid students.</p>
+            <a href="{% url 'Materials' course_name %}" class="btn btn-primary">Upload</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
