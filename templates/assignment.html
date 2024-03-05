@@ -1,4 +1,5 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% block content %} {% load custom_filter %}
+
 <div class="content">
   <button
     type="button"
@@ -9,12 +10,39 @@
     +
   </button>
 
-  {% comment %}
-  <h1>{{course_name}}</h1>
-  {% endcomment %}
-
   <div id="main-content">
-    <!-- Modal -->
+    <div class="container mt-4">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+        {% for asmt in assignments %} 
+        {% if asmt.class_name.subject == course_name %}
+        <div class="col mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title my-2">{{asmt.class_name.subject}}</h5>
+              <h6 class="card-subtitle mb-2 my-2 text-muted">{{asmt.title}}</h6>
+              <p class="card-text">Due: <b>{{ asmt.date }}</b></p>
+              {% if current_date|is_late_submission:asmt.date %}
+              <p class="text-danger"><b>Your submission will be late</b></p>
+              {% endif %}
+              <form method="post" action="{% url 'Assignments' course_name %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="formFile" class="form-label">Choose file:</label>
+                  <input
+                    class="form-control"
+                    type="file"
+                    id="formFile"
+                    name="file"
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        {% endif %} {% endfor %}
+      </div>
+    </div>
     <div
       class="modal fade"
       id="staticBackdrop"
@@ -102,21 +130,6 @@
         </div>
       </div>
     </div>
-    {% for asmt in assignments %} 
-    {% if asmt.class_name.subject == course_name%}
-    <div class="assignment card" style="width: 18rem">
-      <div class="btn">
-        <p>{{asmt.class_name.subject}}</p>
-        <p>{{asmt.title}}</p>
-        <p>Due: <b>{{asmt.date}} </b></p>
-        <form method="post" action="{% url 'Assignments' course_name  %}">
-          {% csrf_token %}
-          <input class="" type="file" id="formFile" name="file" />
-          <input type="submit" />
-        </form>
-      </div>
-    </div>
-    {% endif %} {% endfor %}
   </div>
-  {% endblock content %}
 </div>
+{% endblock content %}

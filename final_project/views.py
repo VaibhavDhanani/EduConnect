@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from Class.models import *
 from django.http import HttpResponse
-
+import ntplib
+from datetime import datetime,date
 
 def login(request):
     return render(request, "login.html")
@@ -62,9 +63,36 @@ def lecture(request, course_name):
     return render(request, "lecture.html", context)
 
 
+def get_current_date_ntp():
+    ntp_client = ntplib.NTPClient()
+    ntp_server = 'pool.ntp.org'
+
+    try:
+        response = ntp_client.request(ntp_server)
+        current_time = datetime.utcfromtimestamp(response.tx_time)
+        current_date = current_time.date()
+        return current_date
+    except Exception as e:
+        print("An error occurred while getting current date from NTP server:", str(e))
+        current_date = date.today()  # Use the date class here
+        return current_date
+ 
+
+
+
+
+
+
+
+
+
+
 def assignment(request,course_name):
     assignments = Assignment.objects.all()
-    context= { 'course_name': course_name, 'assignments': assignments }
+    current_date = get_current_date_ntp()
+    # current_date = current_date.date()
+    print(type(current_date))
+    context= { 'course_name': course_name, 'assignments': assignments, "current_date": current_date }
     return render(request, "assignment.html", context)
 
 
