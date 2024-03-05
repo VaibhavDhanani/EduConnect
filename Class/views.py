@@ -66,13 +66,16 @@ def new_material_upload(request):
     if request.method == "POST":
         title = request.POST.get("title")
         link = request.POST.get("url")
+        file_name = request.FILES.get("file").name
         code = request.COOKIES.get("code")
+
         class_obj = Class.objects.get(code=code)
-        if code and title and link:
-            material = Material(title=title, link=link, class_id=class_obj)
+
+        if code and title and link and file_name:
+            material = Material(title=title, link=link, class_id=class_obj, name=file_name)
             material.save()
             return redirect(reverse("Materials", kwargs={"course_name": class_obj.subject}))
-        return render(request, "home.html")
+        return render(request, "Materials.html")
 
 
 def create_new_assignment(request):
@@ -86,3 +89,10 @@ def create_new_assignment(request):
             assignment.save()
             return redirect(reverse("Assignments", kwargs={"course_name": class_name}))
         return render(request, "home.html")
+
+
+def delete_material(request, material_id):
+    material = Material.objects.get(material_id=material_id)
+    course_name = material.class_id.subject
+    material.delete()
+    return redirect(reverse("Materials", kwargs={"course_name": course_name}))

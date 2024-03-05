@@ -7,4 +7,5 @@ urlpatterns = [
     path("create_new_lecture", views.create_new_lecture, name="create_new_lecture"),
     path("create_new_assignment", views.create_new_assignment, name="create_new_assignment"),
     path("new_material_upload", views.new_material_upload, name="new_material_upload"),
+    path("delete_material/<int:material_id>", views.delete_material, name="delete_material"),
 ]

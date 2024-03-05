@@ -20,19 +20,31 @@
     background-color: #f0f0f0;
     color: #007bff;
   }
+  .notes{
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+  }
+  .card {
+      margin: 10px; /* Add margin for spacing between cards */
+      width: 300px; /* Set fixed card width for responsive layout */
+      border: 1px solid #ddd; /* Add a border to cards */
+      border-radius: 4px; /* Add rounded corners for better looks */
+  }
 </style>
 
-{% for material in materials %}
-{% comment %} {{  material.class_id.code}} {{class_code.code }}<br> {% endcomment %}
-{% if material.class_id.code == class_code.code %}
-<div>
-  <h1>{{ material.title }}</h1>
-  <p>
-    <a href="{{ material.link }}" class="btn btn-primary custom-link" target="_blank">View Material</a>
-  </p>
-</div>
-{% endif %}
-{% endfor %}
+{#{% for material in materials %}#}
+{#{% comment %} {{  material.class_id.code}} {{class_code.code }}<br> {% endcomment %}#}
+{#{% if material.class_id.code == class_code.code %}#}
+{#<div>#}
+{#  <h1>{{ material.title }}</h1>#}
+{#  <p>#}
+{#    <a href="{{ material.link }}" class="btn btn-primary custom-link" target="_blank">View Material</a>#}
+{#  </p>#}
+{#</div>#}
+{#{% endif %}#}
+{#{% endfor %}#}
 <!-- Modal -->
 <div
   class="modal fade"
@@ -108,12 +120,13 @@
                 </div>
                 <div class="modal-body">
 
-                    <form action="{% url 'new_material_upload' %}"  method="post" enctype="multipart/form-data">
+                    <form action="{% url 'new_material_upload'%}"  method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="formFile" class="form-label">Upload Material</label>
                             <input class="form-control" type="file" id="formFile" name="file">
                             <input type="hidden" name="url" id="url">
+                            <input type="hidden" name="file_name" id="file_name">
                         </div>
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
@@ -136,6 +149,26 @@
             </div>
         </div>
     </div>
+    <div class="notes">
+    {% for material in materials %}
+    {% if material.class_id.code == class_code.code %}
+    <div class="col-sm-3 mb-3 mb-sm-0">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ material.title }}</h5>
+                <a href="{{ material.link }}" target="_blank" class="btn btn-primary">View</a>
+                <a class="btn btn-danger" id="delete-material">
+                    <input type="hidden" value="{{ material.material_id }}" id="mat_id">
+                    <input type="hidden" value="{{ material.name }}" id="file_name">
+                    Delete</a>
+
+            </div>
+        </div>
+    {% endif %}
+    {% endfor %}
+
+    </div>
+    </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
@@ -145,6 +178,7 @@
     uploadBytesResumable,
     getDownloadURL,
     uploadBytes,
+      deleteObject
   } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-storage.js";
   const firebaseConfig = {
     apiKey: "AIzaSyDoKKxEn-IChCtdV8BuoohMf7TMZyZXZxk",
@@ -168,7 +202,8 @@
       let file = document.getElementById("formFile").files[0];
       let title = document.getElementById("title").value;
       let storageRef = ref(storage, `Materials/${file.name}`);
-
+      let file_name = document.getElementById("file_name");
+        file_name.value = file.name;
       uploadBytes(storageRef, file)
         .then((snapshot) => {})
         .then(() => {
@@ -180,6 +215,26 @@
         });
     };
     uploadButton.addEventListener("click", upl);
+      const deleteButtons = document.querySelectorAll("#delete-material");
+
+
+      deleteButtons.forEach(button => {
+            button.addEventListener("click", async function (event) {
+                // Access data attributes using `dataset` property
+                const materialId = button.querySelector("#mat_id").value;
+                const fileName = button.querySelector("#file_name").value;
+                let Ref = ref(storage, `Materials/${fileName}`);
+                await deleteObject(Ref).then(() => {
+                    console.log("File deleted successfully");
+                }).catch((error) => {
+
+                });
+
+                window.location.href = `/delete_material/${materialId}`;
+
+            });
+        });
+
   });
 </script>
 
