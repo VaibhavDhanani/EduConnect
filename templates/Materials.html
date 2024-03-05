@@ -25,11 +25,14 @@
 {% for material in materials %}
 {% comment %} {{  material.class_id.code}} {{class_code.code }}<br> {% endcomment %}
 {% if material.class_id.code == class_code.code %}
-<div>
-  <h1>{{ material.title }}</h1>
-  <p>
-    <a href="{{ material.link }}" class="btn btn-primary custom-link" target="_blank">View Material</a>
-  </p>
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">{{material.title}}</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="{{material.link}}" class="card-link btn btn-primary" target="_blank">View</a>
+    <a href="{{ material.link }}" class="card-link btn btn-primary" download target="_blank">Delete</a>
+
+  </div>
 </div>
 {% endif %}
 {% endfor %}

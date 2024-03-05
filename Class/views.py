@@ -86,3 +86,7 @@ def create_new_assignment(request):
             assignment.save()
             return redirect(reverse("Assignments", kwargs={"course_name": class_name}))
         return render(request, "home.html")
+    
+
+
+
