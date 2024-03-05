@@ -87,6 +87,10 @@ def create_new_assignment(request):
             return redirect(reverse("Assignments", kwargs={"course_name": class_name}))
         return render(request, "home.html")
     
+def delete_class(request,class_name):
+    Class.objects.filter(subject=class_name).delete()
+    return redirect(reverse("classes"))
+    
 
 
 
