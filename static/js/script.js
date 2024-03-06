@@ -34,5 +34,3 @@ function createNewClass() {
     alert("Please enter valid values for subject name and professor's name.");
   }
 }
-
-

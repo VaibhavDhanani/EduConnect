@@ -100,6 +100,13 @@ def delete_material(request, material_id):
 def delete_class(request,class_name):
     Class.objects.filter(subject=class_name).delete()
     return redirect(reverse("classes"))
+
+
+def delete_lecture(request,lec_id):
+    lec = Lecture.objects.get(lec_id=lec_id)
+    course_name = lec.class_name.subject
+    lec.delete()
+    return redirect(reverse("lecture",kwargs={"course_name": course_name}))
     
 
 
