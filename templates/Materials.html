@@ -8,6 +8,7 @@
 >
   +
 </button>
+
 <style>
   .hidden {
     display: none;
@@ -150,6 +151,17 @@
         </div>
     </div>
     <div class="notes">
+    <h1
+      style="
+        font-family: math;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 2.5rem;
+        color: #a31c00;
+        margin-bottom: 20px;
+        ">
+      {{class_code.subject}}
+    </h1>
     {% for material in materials %}
     {% if material.class_id.code == class_code.code %}
     <div class="col-sm-3 mb-3 mb-sm-0">
