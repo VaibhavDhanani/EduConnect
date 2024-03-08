@@ -9,6 +9,7 @@ def login(request):
     return render(request, "login.html")
 
 
+
 def home(request):
     if "name" in request.COOKIES:
         if request.COOKIES.get("role") == "Teacher":
@@ -16,22 +17,22 @@ def home(request):
                 id=request.COOKIES.get("uid"), name=request.COOKIES.get("name")
             )
             record.save()
-            return render(request, "classes.html")
+            return render(request, "classes.html", {"name": request.COOKIES.get("name"), "role": "Teacher"})
         elif request.COOKIES.get("role") == "Student":
             record = Student(
                 id=request.COOKIES.get("uid"), name=request.COOKIES.get("name")
             )
             record.save()
-            return render(request, "classes.html")  # // Student class code to add here
+            return render(request, "home.html", {"name": request.COOKIES.get("name"), "role": "Student"})
     elif "uid" in request.COOKIES:
         uid = request.COOKIES.get("uid")
         t_uid = Teacher.objects.filter(id=uid)
         if t_uid.exists():
             return render(request, "classes.html")
-
+        
         s_uid = Student.objects.filter(id=uid)
         if s_uid.exists():
-            return render(request, "classes.html")  # // Student class code to add here
+            return render(request, "home.html")
     else:
         return render(request, "login.html")
 
@@ -86,10 +87,6 @@ def assignment(request, course_name):
     print(type(current_date))
     context = {'course_name': course_name, 'assignments': assignments, "current_date": current_date}
     return render(request, "assignment.html", context)
-
-
-def result(request):
-    return render(request, "results.html")
 
 
 def aboutus(request):

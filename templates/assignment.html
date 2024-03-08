@@ -1,6 +1,7 @@
 {% extends "base.html" %} {% block content %} {% load custom_filter %}
 
 <div class="content">
+  {% if request.user_role == "Teacher" %}
   <button
     type="button"
     class="mybtn"
@@ -9,6 +10,7 @@
   >
     +
   </button>
+  {% endif %}
 
   <h1
   style="
@@ -18,7 +20,7 @@
   color: #a31c00;
   margin-bottom: 20px;
   ">
-  {{course_name}}
+  {{course_name}}|| {{request.user_role}} || {{request.user_name}}  
 </h1>
   <div id="main-content">
     <div class="container mt-4">

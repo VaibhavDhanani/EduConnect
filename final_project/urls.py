@@ -27,7 +27,6 @@ urlpatterns = [
     path("class_details/<str:course_name>/", views.class_details, name='class_details'),
     path("lecture/<str:course_name>", views.lecture, name='lecture'),
     path("classes", views.classes, name='classes'),
-    path("results", views.result, name='results'),
     path("aboutus", views.aboutus, name='aboutus'),
     path("notes", views.notes, name='notes'),
     path("", include("Class.urls")),

@@ -1,2 +1,23 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% block content %} {% comment %}
+<h1>Hello, {{request.user_name}}</h1>
+<h2>EduConnect is waiting dor you , start your new study journey with us</h2>
+{% endcomment %}
+
+<div class="container">
+  <!-- Header section -->
+  <header class="text-center mt-5 mb-4">
+    <h1>Welcome, {{ request.user_name }}</h1>
+    <h2 class="mb-4">
+      EduConnect is waiting for you. Start your new study journey with us!
+      
+    </h2>
+
+    <button class="button-85" role="button">
+        <a href="{% url 'classes' %}" class="text-white" style="text-decoration: none;">Start Learning</a>
+    </button>
+    
+    
+  </header>
+</div>
+
 {% endblock content %}

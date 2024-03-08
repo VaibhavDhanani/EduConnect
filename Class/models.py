@@ -114,42 +114,6 @@ class Assignment(models.Model):
         db_table = 'Assignment'
 
 
-class Test(models.Model):
-    date = models.DateField(auto_now=False, auto_now_add=False)
-    time = models.TimeField(auto_now=False, auto_now_add=False)
-    test_id = models.AutoField(primary_key=True)
-    class_id = models.ForeignKey(
-        Class,
-        on_delete=models.CASCADE,
-        to_field="code",
-        db_column="class_id",
-    )
-
-    class Meta:
-        db_table = 'Test'
-
-
-class Result(models.Model):
-    res_id = models.AutoField(primary_key=True)
-    test_id = models.ForeignKey(
-        Test,
-        on_delete=models.CASCADE,
-        to_field='test_id',
-        db_column='test_id',
-    )
-    student_id = models.ForeignKey(
-        Student,
-        on_delete=models.CASCADE,
-        to_field="id",
-        db_column="student_id",
-    )
-    marks = models.IntegerField()
-    date = models.DateField(auto_now=False, auto_now_add=False)
-
-    class Meta:
-        db_table = 'Result'
-
-
 class Material(models.Model):
     material_id = models.AutoField(primary_key=True)
     class_id = models.ForeignKey(
