@@ -9,7 +9,6 @@ def login(request):
     return render(request, "login.html")
 
 
-
 def home(request):
     if "name" in request.COOKIES:
         if request.COOKIES.get("role") == "Teacher":
@@ -28,11 +27,15 @@ def home(request):
         uid = request.COOKIES.get("uid")
         t_uid = Teacher.objects.filter(id=uid)
         if t_uid.exists():
-            return render(request, "classes.html")
-        
+            teacher = Teacher.objects.get(id=uid)
+            name = teacher.name
+            return render(request, "classes.html", {"name": name, "role": "Teacher"})
+
         s_uid = Student.objects.filter(id=uid)
         if s_uid.exists():
-            return render(request, "home.html")
+            student = Student.objects.get(id=uid)
+            name = student.name
+            return render(request, "home.html", {"name": name, "role": "Student"})
     else:
         return render(request, "login.html")
 
@@ -104,5 +107,3 @@ def materials(request, course_name):
     return render(request, "Materials.html", context)
 
 
-def student_classes(request):
-    return render(request, "student_classes.html")
