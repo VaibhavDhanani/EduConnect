@@ -93,7 +93,7 @@ def create_new_assignment(request):
             assignment = Assignment(title=title, date=date, class_name=class_obj)
             assignment.save()
             return redirect(reverse("Assignments", kwargs={"course_name": class_name}))
-        return render(request, "home.html")    
+        return render(request, "home.html")
 
 
 def delete_material(request, material_id):
@@ -102,17 +102,32 @@ def delete_material(request, material_id):
     material.delete()
     return redirect(reverse("Materials", kwargs={"course_name": course_name}))
 
-def delete_class(request,class_name):
+
+def delete_class(request, class_name):
     Class.objects.filter(subject=class_name).delete()
     return redirect(reverse("classes"))
 
 
-def delete_lecture(request,lec_id):
+def delete_lecture(request, lec_id):
     lec = Lecture.objects.get(lec_id=lec_id)
     course_name = lec.class_name.subject
     lec.delete()
-    return redirect(reverse("lecture",kwargs={"course_name": course_name}))
-    
+    return redirect(reverse("lecture", kwargs={"course_name": course_name}))
 
 
+def join_class(request):
+    if request.method == "POST":
+        code = request.POST.get("class_code")
 
+        if code:
+            class_ = Class.objects.filter(code=code)
+            if class_.exists():
+                get_class = class_.first()
+                print(request.user_id)
+                user = Student.objects.get(id=request.user_id)
+                record = Class_Student(class_id=get_class, student_id=user)
+                print(record)
+                record.save()
+                return redirect(reverse("classes"))
+            else:
+                return render(request, "error_page.html", {"message": "Class does not exist"})
