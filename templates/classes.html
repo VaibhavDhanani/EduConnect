@@ -23,7 +23,7 @@
           class="bg-image box p-3 bg-light rounded shadow d-flex flex-column align-items-center"
           >
           {% if request.user_role == "Teacher"  %}
-          <a href="{% url "delete_class" class.subject %}"
+          <a href="{% url "delete_class" class.subject  %}"
             style="margin-left: 90%;"><img src="/static/images/delete-button.png"></a>
             {% endif %}
             <img
