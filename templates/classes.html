@@ -75,7 +75,7 @@
             aria-label="Close"
           ></button>
         </div>
-        <form id="classForm" method="post" action="create_new_class">
+        <form id="classForm" method="post" action="{% url 'create_new_class' %}">
           <div class="modal-body">
             {% csrf_token %}
             <div class="input-group input-group-sm mb-3">
@@ -93,13 +93,14 @@
             </div>
             <br />
             <div class="input-group input-group-sm mb-3">
-              <span class="input-group-text" id="inputGroup-sizing-sm"
-                ><b>Teacher : </b></span
-              >
+{#              <span class="input-group-text" id="inputGroup-sizing-sm"#}
+{#                ><b>Teacher : </b></span#}
+{#              >#}
               <input
-                type="text"
+                type="hidden"
                 name="teacher_name"
                 id="teacher_name"
+                value="{{ name }}"
                 class="form-control"
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm"

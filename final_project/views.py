@@ -29,12 +29,14 @@ def home(request):
         if t_uid.exists():
             teacher = Teacher.objects.get(id=uid)
             name = teacher.name
+            request.COOKIES["name"] = name
             return render(request, "classes.html", {"name": name, "role": "Teacher"})
 
         s_uid = Student.objects.filter(id=uid)
         if s_uid.exists():
             student = Student.objects.get(id=uid)
             name = student.name
+            request.COOKIES["name"] = name
             return render(request, "home.html", {"name": name, "role": "Student"})
     else:
         return render(request, "login.html")
@@ -42,9 +44,9 @@ def home(request):
 
 def classes(request):
     classes = Class.objects.all()
-
+    name = request.COOKIES.get("name")
     # Create the base HTTP response object
-    response = render(request, "classes.html", context={"classes": classes})
+    response = render(request, "classes.html", context={"classes": classes, "name": name})
 
     if "code" in request.COOKIES:
         response.delete_cookie("code")
@@ -105,5 +107,3 @@ def materials(request, course_name):
     class_data = Class.objects.filter(subject=course_name).first()
     context = {"materials": materials, "class_code": class_data}
     return render(request, "Materials.html", context)
-
-

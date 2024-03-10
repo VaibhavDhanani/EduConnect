@@ -28,6 +28,11 @@ def create_new_class(request):
             new_class = Class.objects.create(
                 code=code, subject=subject_name, teachername=teacher_name
             )
+            class_ = Class.objects.get(code=code)
+            t_id = request.user_id
+            teacher = Teacher.objects.get(id=t_id)
+            record = Class_Teacher(class_id=class_, teacher_id=teacher)
+            record.save()
             return redirect(reverse("classes"))
         else:
             return render(request, "aboutus.html")
