@@ -22,7 +22,7 @@ def home(request):
                 id=request.COOKIES.get("uid"), name=request.COOKIES.get("name")
             )
             record.save()
-            return render(request, "home.html", {"name": request.COOKIES.get("name"), "role": "Student"})
+            return render(request, "classes.html", {"name": request.COOKIES.get("name"), "role": "Student"})
     elif "uid" in request.COOKIES:
         uid = request.COOKIES.get("uid")
         t_uid = Teacher.objects.filter(id=uid)
