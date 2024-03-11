@@ -116,7 +116,9 @@ def aboutus(request):
 
 
 def notes(request):
-    return render(request, "notes.html")
+    materials = Material.objects.all()
+    context = {"materials" : materials}
+    return render(request, "notes.html",context)
 
 
 def materials(request, course_name):
