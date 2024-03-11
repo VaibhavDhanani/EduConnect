@@ -75,15 +75,12 @@ WSGI_APPLICATION = 'final_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'EduConnect',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': 'SET sql_mode="STRICT_ALL_TABLES"',
-        },
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres.knfyzrejealdsluedzcp',
+        'PASSWORD': 'educonnect@0109',
+        'HOST': 'aws-0-ap-south-1.pooler.supabase.com',
+        'PORT': '5432',
     }
 }
 
