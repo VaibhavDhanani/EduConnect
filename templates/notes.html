@@ -1,64 +1,19 @@
 {% extends "base.html" %} {% block content %}
-<div class="notes">
-
-    <div class="col-sm-3">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Material 2</h5>
-          <p class="card-text">
-            click the below button to download the material in zip file
-          </p>
-          <a href="#" class="btn btn-primary">Download</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-3">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Material 3</h5>
-          <p class="card-text">
-            click the below button to download the material in zip file
-          </p>
-          <a href="#" class="btn btn-primary">Download</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <br /><br />
+<div class="container">
   <div class="row">
-    <div class="col-sm-3 mb-3 mb-sm-0">
+    {% for material in materials %}
+    <div class="col-md-3">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Material 4</h5>
+          <h5 class="card-title"> {{material.name}} </h5>
           <p class="card-text">
-            click the below button to download the material in zip file
+            {{material.title}}
           </p>
-          <a href="#" class="btn btn-primary">Download</a>
+          <a href={{material.link}} download class="btn btn-primary" target="_blank">Download</a>
         </div>
       </div>
     </div>
-    <div class="col-sm-3">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Material 5</h5>
-          <p class="card-text">
-            click the below button to download the material in zip file
-          </p>
-          <a href="#" class="btn btn-primary">Download</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-3">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Material 6</h5>
-          <p class="card-text">
-            click the below button to download the material in zip file
-          </p>
-          <a href="#" class="btn btn-primary">Download</a>
-        </div>
-      </div>
-    </div>
+    {% endfor %}
   </div>
 </div>
 

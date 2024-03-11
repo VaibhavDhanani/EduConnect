@@ -9,7 +9,6 @@ def login(request):
     return render(request, "login.html")
 
 
-
 def home(request):
     if "name" in request.COOKIES:
         if request.COOKIES.get("role") == "Teacher":
@@ -28,18 +27,43 @@ def home(request):
         uid = request.COOKIES.get("uid")
         t_uid = Teacher.objects.filter(id=uid)
         if t_uid.exists():
-            return render(request, "classes.html")
-        
+            teacher = Teacher.objects.get(id=uid)
+            name = teacher.name
+            request.COOKIES["name"] = name
+            request.COOKIES["role"] = "Teacher"
+            return render(request, "classes.html", {"name": name, "role": "Teacher"})
+
         s_uid = Student.objects.filter(id=uid)
         if s_uid.exists():
-            return render(request, "classes.html")
+            student = Student.objects.get(id=uid)
+            name = student.name
+            request.COOKIES["name"] = name
+            request.COOKIES["role"] = "Student"
+            return render(request, "home.html", {"name": name, "role": "Student"})
     else:
         return render(request, "login.html")
 
 
 def classes(request):
     classes = Class.objects.all()
-    response = render(request, "classes.html", context={"classes": classes})
+    role = request.user_role
+    name = request.COOKIES.get("name")
+    class_codes = []
+    print(role)
+
+    if role == "Teacher":
+        all_codes = Class_Teacher.objects.filter(teacher_id=request.user_id)
+        for codes in all_codes:
+            record = Class.objects.get(code=codes.class_id.code)
+            class_codes.append(record)
+
+    elif role == "Student":
+        all_codes = Class_Student.objects.filter(student_id=request.user_id)
+        for codes in all_codes:
+            record = Class.objects.get(code=codes.class_id.code)
+            class_codes.append(record)
+    # Create the base HTTP response object
+    response = render(request, "classes.html", context={"classes": class_codes, "name": name})
 
     if "code" in request.COOKIES:
         response.delete_cookie("code")
@@ -92,7 +116,9 @@ def aboutus(request):
 
 
 def notes(request):
-    return render(request, "notes.html")
+    materials = Material.objects.all()
+    context = {"materials" : materials}
+    return render(request, "notes.html",context)
 
 
 def materials(request, course_name):
@@ -100,7 +126,3 @@ def materials(request, course_name):
     class_data = Class.objects.filter(subject=course_name).first()
     context = {"materials": materials, "class_code": class_data}
     return render(request, "Materials.html", context)
-
-
-def student_classes(request):
-    return render(request, "student_classes.html")

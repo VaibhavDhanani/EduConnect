@@ -11,22 +11,43 @@
   +
 </button>
 {% endif %}
+
+{% if request.user_role == "Student" %}
+    <button
+    type="button"
+    class="mybtn"
+    data-bs-toggle="modal"
+    data-bs-target="#modal2"
+    >
+    +
+    </button>
+
+<form method="post" action="{% url 'join_class' %}">
+    {% csrf_token %}
+    <div class="modal fade" id="modal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><b>Class Code : </b></span>
+                        <input type="text" name="class_code" id="class_code" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary"  >Join</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endif %}
 <div id="main-content">
   <div class="container mt-4">
-    <h1
-      style="
-        font-family: math;
-        text-align: center;
-        font-size: 2.5rem;
-        color: #004e66;
-        margin-bottom: 20px;
-        ">
-      {% if request.user_role == "Teacher" %}
-      Create New Classes 😃
-      {% else %}
-      Explore the Classes 😈
-      {% endif %}
-    </h1>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
       {% for class in classes %}
       <div id="class_anchor">
@@ -37,7 +58,7 @@
           class="bg-image box p-3 bg-light rounded shadow d-flex flex-column align-items-center"
           >
           {% if request.user_role == "Teacher"  %}
-          <a href="{% url "delete_class" class.subject %}"
+          <a href="{% url "delete_class" class.subject  %}"
             style="margin-left: 90%;"><img src="/static/images/delete-button.png"></a>
             {% endif %}
             <img
@@ -89,7 +110,7 @@
             aria-label="Close"
           ></button>
         </div>
-        <form id="classForm" method="post" action="create_new_class">
+        <form id="classForm" method="post" action="{% url 'create_new_class' %}">
           <div class="modal-body">
             {% csrf_token %}
             <div class="input-group input-group-sm mb-3">
@@ -106,19 +127,15 @@
               />
             </div>
             <br />
-            <div class="input-group input-group-sm mb-3">
-              <span class="input-group-text" id="inputGroup-sizing-sm"
-                ><b>Teacher : </b></span
-              >
               <input
-                type="text"
+                type="hidden"
                 name="teacher_name"
                 id="teacher_name"
+                value="{{ name }}"
                 class="form-control"
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm"
               />
-            </div>
             <br />
           </div>
           <div class="modal-footer">
@@ -136,6 +153,25 @@
     </div>
   </div>
 </div>
+
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modlal2">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <script>
   let class_anchors = document.querySelectorAll("#class_anchor");
