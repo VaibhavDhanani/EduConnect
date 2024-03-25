@@ -23,6 +23,13 @@
     .nav-link{
         color: white;
     }
+    .nav-link:hover{
+        color: darkgrey;
+    }
+    .navbar-brand:hover{
+        color: White;
+        cursor: pointer;
+    }
     body {
         height: 100vh;
         background-image: url('https://t3.ftcdn.net/jpg/03/71/98/88/240_F_371988886_4l0P3YZFnOip5nIzmm7dXH8E8vXJH3bB.jpg'); 
@@ -63,9 +70,27 @@
 
         </ul>
     </div>
+    <a class="nav-link" id="sign_out" style="margin-right:3% ; cursor: pointer">Sign Out</a>
 
 </nav>
+<script  async>
 
+
+    function deleteCookies() {
+        let Cookies = document.cookie.split(';');
+
+        for (let i = 0; i < Cookies.length; i++)
+            document.cookie = Cookies[i] + "=;expires=" + new Date(0).toUTCString();
+    }
+
+
+    const signOutButton = document.getElementById("sign_out");
+    signOutButton.addEventListener( "click",async () => {
+        await deleteCookies();
+        window.location.href = "/";
+    });
+
+</script>
 
 
 {% block content %}

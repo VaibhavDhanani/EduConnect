@@ -30,12 +30,13 @@
         <div class="col mb-4">
           <div class="card h-100">
             <div class="card-body">
-              <h5 class="card-title my-2">{{asmt.class_name.subject}}</h5>
-              <h6 class="card-subtitle mb-2 my-2 text-muted">{{asmt.title}}</h6>
+                <h5 class="card-subtitle mb-2 my-2 text-muted">Title :- {{asmt.title}}</h5>
+              <h6 class="card-title my-2">{{asmt.class_name.subject}}</h6>
               <p class="card-text">Due: <b>{{ asmt.date }}</b></p>
               {% if current_date|is_late_submission:asmt.date %}
               <p class="text-danger"><b>Your submission will be late</b></p>
               {% endif %}
+            {% if request.user_role == "Student" %}
               <form method="post" action="{% url 'Assignments' course_name %}">
                 {% csrf_token %}
                 <div class="mb-3">
@@ -49,6 +50,11 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
+            {% endif %}
+            {% if request.user_role == "Teacher" %}
+                <a href="" class="btn btn-primary">View Submissions</a>
+
+            {% endif %}
             </div>
           </div>
         </div>
