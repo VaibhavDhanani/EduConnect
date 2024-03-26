@@ -56,12 +56,22 @@
 {#                    name="file"#}
 {#                  />#}
 {#                </div>#}
-                  <button value="{{ asmt.asgmt_id }}" id="upload-sub" type="button" class="btn btn-primary">
-                      Upload
-                      <input type="hidden" value="{{ request.user_id }}">
-                  </button>
-               <a type="button" href=""  target="_blank" class="btn btn-success">View</a>
-               <button type="button" class="btn btn-danger">Delete</button>
+
+
+                  {% with asmt.submission_set.first as submission  %}
+
+                  {% if submission %}
+                      <button type="button" class="btn btn-outline-primary" >Uploaded</button>
+                  <a type="button" href="{{ submission.link }}"  target="_blank" class="btn btn-success">View</a>
+                      <button type="button" class="btn btn-danger">Delete</button>
+
+                  {% else %}
+                      <button value="{{ asmt.asgmt_id }}" id="upload-sub" type="button" class="btn btn-primary">
+                          Upload
+                          <input type="hidden" value="{{ request.user_id }}">
+                      </button>
+                  {% endif %}
+                  {% endwith %}
               </form>
             {% endif %}
             {% if request.user_role == "Teacher" %}

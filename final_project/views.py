@@ -78,7 +78,7 @@ def class_details(request, course_name):
 
 def lecture(request, course_name):
     classes = Class.objects.all()
-    lectures = Lecture.objects.all()
+    lectures = Lecture.objects.filter()
     context = {
         'course_name': course_name,
         'classes': classes,
@@ -103,11 +103,16 @@ def get_current_date_ntp():
 
 
 def assignment(request, course_name):
-    assignments = Assignment.objects.all()
     current_date = get_current_date_ntp()
-    # current_date = current_date.date()
-    print(type(current_date))
-    context = {'course_name': course_name, 'assignments': assignments, "current_date": current_date}
+    context = {}
+    if request.user_role == "Teacher":
+        assignments = Assignment.objects.filter(class_name__subject=course_name)
+        context = {'course_name': course_name, 'assignments': assignments, "current_date": current_date}
+
+    elif request.user_role == "Student":
+        assignments = Assignment.objects.prefetch_related('submission_set')
+        context = {'course_name': course_name, 'assignments': assignments, "current_date": current_date}
+
     return render(request, "assignment.html", context)
 
 
@@ -117,8 +122,8 @@ def aboutus(request):
 
 def notes(request):
     materials = Material.objects.all()
-    context = {"materials" : materials}
-    return render(request, "notes.html",context)
+    context = {"materials": materials}
+    return render(request, "notes.html", context)
 
 
 def materials(request, course_name):
