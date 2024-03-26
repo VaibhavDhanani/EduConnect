@@ -11,4 +11,5 @@ urlpatterns = [
     path("delete_material/<int:material_id>", views.delete_material, name="delete_material"),
     path("delete_lecture/<int:lec_id>", views.delete_lecture, name="delete_lecture"),
     path("join_class", views.join_class, name="join_class"),
+    path("assignment_upload", views.assignment_upload, name="assignment_upload"),
 ]

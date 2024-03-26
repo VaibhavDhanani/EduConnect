@@ -131,3 +131,22 @@ def join_class(request):
                 return redirect(reverse("classes"))
             else:
                 return render(request, "error_page.html", {"message": "Class does not exist"})
+
+
+def assignment_upload(request):
+    if request.method == "POST":
+        s_id = request.user_id
+        student = Student.objects.get(id=s_id)
+        a_id = request.POST.get("asmt_id")
+        assignment = Assignment.objects.get(asgmt_id=a_id)
+        file_name = request.POST.get("file_name")
+        link = request.POST.get("url")
+
+        print(file_name, link, s_id , a_id)
+        if file_name and link:
+            submission = Submission(asgmt_id=assignment, student_id=student, link=link, name=file_name)
+            submission.save()
+            return redirect(reverse("Assignments", kwargs={"course_name": assignment.class_name.subject}))
+        else:
+            print("Missing required fields")
+

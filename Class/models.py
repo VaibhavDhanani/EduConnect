@@ -128,3 +128,29 @@ class Material(models.Model):
 
     class Meta:
         db_table = 'Material'
+
+
+class Submission(models.Model):
+    sub_id = models.AutoField(primary_key=True)
+    asgmt_id = models.ForeignKey(
+        Assignment,
+        on_delete=models.CASCADE,
+        to_field="asgmt_id",
+        db_column="asgmt_id",
+    )
+    student_id = models.ForeignKey(
+        Student,
+        on_delete=models.CASCADE,
+        to_field="id",
+        db_column="student_id",
+    )
+    link = models.URLField(max_length=250, null=False)
+    name = models.CharField(max_length=50, null=False)
+
+    class Meta:
+        db_table = 'Submission'
+        constraints = [
+            models.UniqueConstraint(
+                fields=["asgmt_id"], name="unique_submission"
+            )
+        ]
