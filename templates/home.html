@@ -9,10 +9,16 @@
       
     </h2>
 
+      {% if request.user_role == "Student" %}
     <button class="button-85" role="button">
         <a href="{% url 'classes' %}" class="text-white" style="text-decoration: none;">Start Learning</a>
     </button>
-    
+    {% else %}
+          <button class="button-85" role="button">
+              <a href="{% url 'classes' %}" class="text-white" style="text-decoration: none;">Start Teaching</a>
+          </button>
+    {% endif %}
+
     
   </header>
 </div>

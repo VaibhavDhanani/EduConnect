@@ -16,30 +16,13 @@ def home(request):
                 id=request.COOKIES.get("uid"), name=request.COOKIES.get("name")
             )
             record.save()
-            return render(request, "classes.html", {"name": request.COOKIES.get("name"), "role": "Teacher"})
+            return render(request, "home.html", {"name": request.COOKIES.get("name"), "role": "Teacher"})
         elif request.COOKIES.get("role") == "Student":
             record = Student(
                 id=request.COOKIES.get("uid"), name=request.COOKIES.get("name")
             )
             record.save()
             return render(request, "home.html", {"name": request.COOKIES.get("name"), "role": "Student"})
-    elif "uid" in request.COOKIES:
-        uid = request.COOKIES.get("uid")
-        t_uid = Teacher.objects.filter(id=uid)
-        if t_uid.exists():
-            teacher = Teacher.objects.get(id=uid)
-            name = teacher.name
-            request.COOKIES["name"] = name
-            request.COOKIES["role"] = "Teacher"
-            return render(request, "classes.html", {"name": name, "role": "Teacher"})
-
-        s_uid = Student.objects.filter(id=uid)
-        if s_uid.exists():
-            student = Student.objects.get(id=uid)
-            name = student.name
-            request.COOKIES["name"] = name
-            request.COOKIES["role"] = "Student"
-            return render(request, "home.html", {"name": name, "role": "Student"})
     else:
         return render(request, "login.html")
 
