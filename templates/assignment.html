@@ -47,31 +47,20 @@
             {% if request.user_role == "Student" %}
               <form method="post" action="{% url 'Assignments' course_name %}">
                 {% csrf_token %}
-{#                <div class="mb-3">#}
-{#                  <label for="formFile" class="form-label">Choose file:</label>#}
-{#                  <input#}
-{#                    class="form-control"#}
-{#                    type="file"#}
-{#                    id="formFile"#}
-{#                    name="file"#}
-{#                  />#}
-{#                </div>#}
 
-
-                  {% with asmt.submission_set.first as submission  %}
-
-                  {% if submission %}
+                  {% if asmt.asgmt_id in sub_set %}
                       <button type="button" class="btn btn-outline-primary" >Uploaded</button>
-                  <a type="button" href="{{ submission.link }}"  target="_blank" class="btn btn-success">View</a>
+                  <a type="button" href="" id="sub_link" name="{{ asmt.asgmt_id }}"  target="_blank" class="btn btn-success">
+                        View
+                  </a>
                       <button type="button" class="btn btn-danger">Delete</button>
 
                   {% else %}
                       <button value="{{ asmt.asgmt_id }}" id="upload-sub" type="button" class="btn btn-primary">
                           Upload
-                          <input type="hidden" value="{{ request.user_id }}">
+                          <input type="hidden" id="hidden_id" value="{{ request.user_id }}">
                       </button>
                   {% endif %}
-                  {% endwith %}
               </form>
             {% endif %}
             {% if request.user_role == "Teacher" %}
@@ -234,11 +223,22 @@
         let storage = getStorage(app);
 
         document.addEventListener("DOMContentLoaded" , (event) =>{
+
+            let sub_set = {{sub_set|safe}};
+            console.log(sub_set);
             let uploadButton = document.getElementById("upload");
             let uploadSpinner = document.getElementById("spinner1");
             uploadSpinner.classList.add("hidden");
             let uploadbtn = document.querySelectorAll("#upload-sub");
             let uploadModal = new bootstrap.Modal(document.getElementById('staticBackdrop2'))
+            let sub_link = document.querySelectorAll("#sub_link")
+
+            sub_link.forEach(link =>{
+                let asmt_id = parseInt( link.getAttribute("name"));
+                link.href = sub_set[asmt_id];
+                console.log(sub_set[asmt_id]);
+            })
+
 
 
             let upl = () =>{
@@ -264,7 +264,7 @@
             uploadbtn.forEach(button => {
                 button.addEventListener("click",  (event) => {
                     let asgmt_id = button.value;
-                    let user_id = button.nextElementSibling.value;
+                    let user_id = button.querySelector("#hidden_id");
                     let asmt_id = document.getElementById("asmt_id");
                     asmt_id.value = asgmt_id;
                     uploadModal.show()
