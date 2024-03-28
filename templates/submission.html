@@ -1,0 +1,19 @@
+{% extends "base.html" %} {% block content %}
+{% load static %}
+    <div id="main-content">
+        <div class="container mt-4">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+                {% for sub in submission %}
+                        <div class="col mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-subtitle mb-2 my-2 text-muted">Student :- {{sub.student_id.name}}</h5>
+                                    <a type="button" href="{{ sub.link }}" target="_blank" class="btn btn-primary" >View</a>
+                                </div>
+                            </div>
+                        </div>
+                     {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

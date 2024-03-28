@@ -66,7 +66,7 @@
               </form>
             {% endif %}
             {% if request.user_role == "Teacher" %}
-                <a href="" class="btn btn-primary">View Submissions</a>
+                <a href="{% url 'view_submission' asmt.asgmt_id  asmt.class_name.subject%}" class="btn btn-primary">View Submissions</a>
 
             {% endif %}
             </div>
@@ -291,8 +291,6 @@
                     uploadModal.show()
                     document.getElementById("upload").addEventListener("click",async (event) => {
                         await upl();
-                        button.classList.remove("btn-success");
-                        button.classList.add("btn-outline-success");
                         let url = document.getElementById("url").value;
                         let file_name = document.getElementById("file_name").value;
                         file_name = document.getElementById("formFile").files[0].name;

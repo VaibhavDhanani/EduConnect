@@ -140,3 +140,10 @@ def delete_submission(request, sid, course_name):
     obj = Submission.objects.filter(sub_id=sid)
     obj.delete()
     return assignment(request, course_name)
+
+
+def view_submission(request, aid, course_name):
+    obj = Submission.objects.filter(asgmt_id=aid).filter(asgmt_id__class_name__subject=course_name)
+    context = {"submission": obj}
+    print(obj)
+    return render(request, "submission.html", context)
