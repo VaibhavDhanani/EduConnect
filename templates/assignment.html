@@ -48,12 +48,14 @@
               <form method="post" action="{% url 'Assignments' course_name %}">
                 {% csrf_token %}
 
-                  {% if asmt.asgmt_id in sub_set %}
+                  {% if asmt.asgmt_id in sub_set  %}
                       <button type="button" class="btn btn-outline-primary" >Uploaded</button>
                   <a type="button" href="" id="sub_link" name="{{ asmt.asgmt_id }}"  target="_blank" class="btn btn-success">
                         View
                   </a>
-                      <button type="button" class="btn btn-danger">Delete</button>
+                      <button type="button" id="sub_delete" class="btn btn-danger">Delete
+                      <input type="hidden" id="hid_asmt_id" value="{{ asmt.asgmt_id }}"></input>
+                      </button>
 
                   {% else %}
                       <button value="{{ asmt.asgmt_id }}" id="upload-sub" type="button" class="btn btn-primary">
@@ -224,7 +226,7 @@
 
         document.addEventListener("DOMContentLoaded" , (event) =>{
 
-            let sub_set = {{sub_set|safe}};
+            let sub_set = {{sub_set|safe}} || {};
             console.log(sub_set);
             let uploadButton = document.getElementById("upload");
             let uploadSpinner = document.getElementById("spinner1");
@@ -232,11 +234,30 @@
             let uploadbtn = document.querySelectorAll("#upload-sub");
             let uploadModal = new bootstrap.Modal(document.getElementById('staticBackdrop2'))
             let sub_link = document.querySelectorAll("#sub_link")
+            let deleteBtn = document.querySelectorAll("#sub_delete")
+
+            deleteBtn.forEach(button => {
+                button.addEventListener("click" , async (event) =>{
+                    const asmt_id = button.querySelector("#hid_asmt_id").value;
+                    const file_name = sub_set[asmt_id]['name'];
+
+                    let Ref = ref(storage, `assignments/${file_name}`);
+                    await deleteObject(Ref).then(() => {
+                        console.log("File deleted successfully");
+                    }).catch((error) => {
+
+                    });
+
+                    window.location.href = `/delete_submission/${sub_set[asmt_id]['id']}/{{ course_name }}`;
+                })
+
+            })
+
 
             sub_link.forEach(link =>{
                 let asmt_id = parseInt( link.getAttribute("name"));
-                link.href = sub_set[asmt_id];
-                console.log(sub_set[asmt_id]);
+                link.href = sub_set[asmt_id]['link'];
+                console.log(sub_set[asmt_id]['link']);
             })
 
 
@@ -270,6 +291,8 @@
                     uploadModal.show()
                     document.getElementById("upload").addEventListener("click",async (event) => {
                         await upl();
+                        button.classList.remove("btn-success");
+                        button.classList.add("btn-outline-success");
                         let url = document.getElementById("url").value;
                         let file_name = document.getElementById("file_name").value;
                         file_name = document.getElementById("formFile").files[0].name;

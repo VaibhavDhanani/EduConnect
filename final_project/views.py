@@ -104,13 +104,14 @@ def assignment(request, course_name):
             obj = x.submission_set.filter(student_id=request.user_id).first()
             if obj is not None:
                 submission_link = obj.link
+                sub_set[x.asgmt_id] = {'link': submission_link, 'id': obj.sub_id, 'name': obj.name}
             else:
                 print(None)
-                submission_link = None
-
-            sub_set[x.asgmt_id] = submission_link
+                submission_link = ''
 
         print(sub_set)
+        if len(sub_set) == 0:
+            sub_set = {'None': 'None'}
 
         context = {'course_name': course_name, 'assignments': asmt, "current_date": current_date,
                    "sub_set": sub_set}
@@ -133,3 +134,9 @@ def materials(request, course_name):
     class_data = Class.objects.filter(subject=course_name).first()
     context = {"materials": materials, "class_code": class_data}
     return render(request, "Materials.html", context)
+
+
+def delete_submission(request, sid, course_name):
+    obj = Submission.objects.filter(sub_id=sid)
+    obj.delete()
+    return assignment(request, course_name)
