@@ -43,7 +43,8 @@ def create_new_class(request):
                 teacher = Teacher.objects.get(id=t_id)
                 record = Class_Teacher(class_id=new_class, teacher_id=teacher)
                 record.save()
-                return redirect(reverse("classes"))
+                messages.info(request, "Class Created\n Class code:- {code}")
+                return HttpResponseRedirect(reverse("classes"))
             except IntegrityError:
                 messages.error(request, "Class with the same details already exists.")
                 return HttpResponseRedirect(reverse("home"))

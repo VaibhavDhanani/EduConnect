@@ -1,6 +1,17 @@
 {% extends "base.html" %} {% block content %}
 {% load static %}
+
+{% if messages %}
+<script>
+    var errorMessage = "";
+    {% for message in messages %}
+        errorMessage += "{{ message|safe }}\n";
+    {% endfor %}
+    alert(errorMessage.trim()); 
+</script>
+{% endif %} 
 {% if request.user_role == "Teacher"  %}
+
 <button
   type="button"
   class="mybtn"
@@ -28,7 +39,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Join Classes</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -71,9 +82,15 @@
               <h3 class="subject-name fs-3 fw-bold text-white">
                 {{class.subject}}
               </h3>
+              {% if request.user_role == "Student" %}
               <p class="professor-name fs-5 fw-medium text-white">
                 {{class.teachername}} 
               </p>
+              {% else %}
+              <p class="professor-name fs-5 fw-medium text-white">
+                {{class.code}} 
+              </p>
+              {% endif %}
             </div>
           
           </div>
