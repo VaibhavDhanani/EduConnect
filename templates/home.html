@@ -1,12 +1,23 @@
 {% extends "base.html" %} {% block content %}
 
+
+{% if messages %}
+<script>
+    var errorMessage = "";
+    {% for message in messages %}
+        errorMessage += "{{ message|safe }}\n";
+    {% endfor %}
+    alert(errorMessage.trim()); 
+</script>
+{% endif %}
+
+
 <div class="container">
   <!-- Header section -->
   <header class="text-center mt-5 mb-4">
     <h1>Welcome, {{ request.user_name }}</h1>
     <h2 class="mb-4">
       EduConnect is waiting for you. Start your new study journey with us!
-      
     </h2>
 
       {% if request.user_role == "Student" %}

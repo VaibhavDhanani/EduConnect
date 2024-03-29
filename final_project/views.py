@@ -112,7 +112,7 @@ def assignment(request, course_name):
         print(sub_set)
         if len(sub_set) == 0:
             sub_set = {'None': 'None'}
-
+        
         context = {'course_name': course_name, 'assignments': asmt, "current_date": current_date,
                    "sub_set": sub_set}
 
@@ -144,6 +144,7 @@ def delete_submission(request, sid, course_name):
 
 def view_submission(request, aid, course_name):
     obj = Submission.objects.filter(asgmt_id=aid).filter(asgmt_id__class_name__subject=course_name)
-    context = {"submission": obj}
-    print(obj)
+    asmt_date = Assignment.objects.get(asgmt_id=aid).date
+    students = Student.objects.all()
+    context = { "students": students ,"submissions": obj,"sub_date" : asmt_date}
     return render(request, "submission.html", context)

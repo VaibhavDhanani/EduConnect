@@ -63,7 +63,7 @@
                 class="form-control"
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm"
-                requried
+                required
               />
             </div>
             <div class="input-group input-group-sm mb-3">
@@ -76,7 +76,7 @@
                 class="form-select"
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm"
-                requried
+                required
               >
                 <option value="{{ course_name }}">{{ course_name }}</option>
               </select>
@@ -92,7 +92,7 @@
                 class="form-control"
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm"
-                requried
+                required
               />
             </div>
           </div>
@@ -114,13 +114,11 @@
   <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4">
     {% for lec in lectures %}
     {% if lec.class_name.subject == course_name %}
-    <div class="col mx-1 my-2">
+    <div class="col my-2">
         <div class="card" style="border: 2px #1a182a solid;">
-            <div class="embed-responsive embed-responsive-16by9">
+            <div class="embed-responsive embed-responsive-16by9 d-flex align-items-center justify-content-center">
               <iframe
-              class="card-img-top"
-              width="250"
-              height="250"
+              class="card-img-top embed-responsive-item"
               src="{{ lec.link }}"
               title="YouTube video player"
               frameborder="0"

@@ -1,5 +1,4 @@
 {% extends "base.html" %} {% block content %}
-<!-- Button trigger modal -->
 {% if request.user_role == "Teacher" %}
 <button
   type="button"
@@ -30,90 +29,12 @@
       justify-content: space-between;
   }
   .card {
-      margin: 10px; /* Add margin for spacing between cards */
-      width: 300px; /* Set fixed card width for responsive layout */
-      border: 1px solid #ddd; /* Add a border to cards */
-      border-radius: 4px; /* Add rounded corners for better looks */
+      margin: 10px; 
+      width: 300px; 
+      border: 1px solid #ddd; 
+      border-radius: 4px;
   }
 </style>
-
-{#{% for material in materials %}#}
-{#{% comment %} {{  material.class_id.code}} {{class_code.code }}<br> {% endcomment %}#}
-{#{% if material.class_id.code == class_code.code %}#}
-{#<div>#}
-{#  <h1>{{ material.title }}</h1>#}
-{#  <p>#}
-{#    <a href="{{ material.link }}" class="btn btn-primary custom-link" target="_blank">View Material</a>#}
-{#  </p>#}
-{#</div>#}
-{#{% endif %}#}
-{#{% endfor %}#}
-<!-- Modal -->
-<div
-  class="modal fade"
-  id="staticBackdrop"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
-  tabindex="-1"
-  aria-labelledby="staticBackdropLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Upload Material</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <form
-          action="{% url 'new_material_upload' %}"
-          method="post"
-          enctype="multipart/form-data"
-        >
-          {% csrf_token %}
-          <div class="mb-3">
-            <label for="formFile" class="form-label">Upload Material</label>
-            <input class="form-control" type="file" id="formFile" name="file" />
-            <input type="hidden" name="url" id="url" />
-          </div>
-          <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="title" name="title" />
-          </div>
-          <div class="upload-container d-flex align-items-center">
-            <button type="button" id="upload" class="btn btn-primary">
-              Upload
-            </button>
-            <div
-              class="spinner-border text-dark"
-              style="margin-left: 5px"
-              role="status"
-              id="spinner"
-            >
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-    <!-- Modal -->
     <div class="modal fade"  id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -122,33 +43,30 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
                     <form action="{% url 'new_material_upload'%}"  method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="formFile" class="form-label">Upload Material</label>
-                            <input class="form-control" type="file" id="formFile" name="file">
+                            <input class="form-control" type="file" id="formFile" name="file" required>
                             <input type="hidden" name="url" id="url">
-                            <input type="hidden" name="file_name" id="file_name">
+                            <input type="hidden" name="file_name" id="file_name" >
                         </div>
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="title" name="title">
-                        </div>
-                        <div class="upload-container d-flex align-items-center">
-                            <button type="button" id="upload" class="btn btn-primary">Upload</button>
-                            <div class="spinner-border text-dark"  style="margin-left: 5px" role="status" id="spinner">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="Material name" required>
                         </div>
                         <div class="modal-footer">
+                          <div class="upload-container d-flex align-items-center">
+                            <div class="spinner-border text-dark"  style="margin-left: 20px" role="status" id="spinner">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </div>
+                          <button type="button" id="upload" class="btn btn-success">Upload</button>
+                          <button type="submit" class="btn btn-primary">Submit</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
-
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
@@ -164,26 +82,31 @@
     </h1>
     <div class="notes">
     
-    {% for material in materials %}
-    {% if material.class_id.code == class_code.code %}
-    <div class="col-sm-3 mb-3 mb-sm-0">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">{{ material.title }}</h5>
-                <a href="{{ material.link }}" target="_blank" class="btn btn-primary">View</a>
-                {% if request.user_role == "Teacher" %}
-                <a class="btn btn-danger" id="delete-material">
-                    <input type="hidden" value="{{ material.material_id }}" id="mat_id">
-                    <input type="hidden" value="{{ material.name }}" id="file_name">
-                    Delete</a>
-                {% else %}
-                <a href="{{ material.link }}" target="_blank" download class="btn btn-success">Download</a>
-                {% endif %}
-
-            </div>
-        </div>
-    {% endif %}
-    {% endfor %}
+      <div class="row">
+        {% for material in materials %}
+            {% if material.class_id.code == class_code.code %}
+                <div class="col-sm-5 col-md-4 col-lg-3 my-2 mx-5">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <h5 class="card-title">{{ material.title }}</h5>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{{ material.link }}" target="_blank" class="btn btn-primary">View</a>
+                                {% if request.user_role == "Teacher" %}
+                                <a class="btn btn-danger" id="delete-material">
+                                    <input type="hidden" value="{{ material.material_id }}" id="mat_id">
+                                    <input type="hidden" value="{{ material.name }}" id="file_name">
+                                    Delete</a>
+                                {% else %}
+                                <a href="{{ material.link }}" target="_blank" download class="btn btn-success">Download</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    
 
     </div>
     </div>

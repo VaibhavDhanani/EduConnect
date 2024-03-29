@@ -28,53 +28,55 @@
   color: #a31c00;
   margin-bottom: 20px;
   ">
-  {{course_name}}|| {{request.user_role}} || {{request.user_name}}  
+  {{course_name}}  
 </h1>
   <div id="main-content">
     <div class="container mt-4">
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
-        {% for asmt in assignments %} 
-        {% if asmt.class_name.subject == course_name %}
-        <div class="col mb-4">
-          <div class="card h-100">
-            <div class="card-body">
-                <h5 class="card-subtitle mb-2 my-2 text-muted">Title :- {{asmt.title}}</h5>
-              <h6 class="card-title my-2">{{asmt.class_name.subject}}</h6>
-              <p class="card-text">Due: <b>{{ asmt.date }}</b></p>
-              {% if current_date|is_late_submission:asmt.date %}
-              <p class="text-danger"><b>Your submission is late.</b></p>
-              {% endif %}
-            {% if request.user_role == "Student" %}
-              <form method="post" action="{% url 'Assignments' course_name %}">
-                {% csrf_token %}
-
-                  {% if asmt.asgmt_id in sub_set  %}
-                      <button type="button" class="btn btn-outline-primary" >Uploaded</button>
-                  <a type="button" href="" id="sub_link" name="{{ asmt.asgmt_id }}"  target="_blank" class="btn btn-success">
-                        View
-                  </a>
-                      <button type="button" id="sub_delete" class="btn btn-danger">Delete
-                      <input type="hidden" id="hid_asmt_id" value="{{ asmt.asgmt_id }}"></input>
-                      </button>
-
-                  {% else %}
-                      <button value="{{ asmt.asgmt_id }}" id="upload-sub" type="button" class="btn btn-primary">
-                          Upload
-                          <input type="hidden" id="hidden_id" value="{{ request.user_id }}">
-                      </button>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+          {% for asmt in assignments %} 
+          {% if asmt.class_name.subject == course_name %}
+          <div class="col mb-4">
+            <div class="card h-100">
+              <div class="card-body">
+                  <h5 class="card-subtitle mb-2 my-2 text-muted">Title: {{asmt.title}}</h5>
+                  <h6 class="card-title my-2">{{asmt.class_name.subject}}</h6>
+                  <p class="card-text">Due: <b>{{ asmt.date }}</b></p>
+                  {% if request.user_role == "Student" %}
+                  <form method="post" action="{% url 'Assignments' course_name %}">
+                    {% csrf_token %}
+                    {% if asmt.asgmt_id in sub_set  %}
+                        {% if current_date > asmt.date %}
+                            <p class="text-danger"><b>Your submission is overdue.</b></p>
+                        {% endif %}
+                        <div class="d-flex flex-wrap align-items-center">
+                            <button type="button" class="btn btn-outline-primary mr-2">Uploaded</button>
+                            <a type="button" href="" id="sub_link" name="{{ asmt.asgmt_id }}" target="_blank" class="btn btn-success mr-2">View</a>
+                            <button type="button" id="sub_delete" class="btn btn-danger my-2">Delete
+                                <input type="hidden" id="hid_asmt_id" value="{{ asmt.asgmt_id }}">
+                            </button>
+                        </div>
+                    {% else %}
+                        <div class="d-flex flex-wrap align-items-center">
+                            <button value="{{ asmt.asgmt_id }}" id="upload-sub" type="button" class="btn btn-primary mr-2">
+                                Upload
+                                <input type="hidden" id="hidden_id" value="{{ request.user_id }}">
+                            </button>
+                        </div>
+                    {% endif %}
+                </form>
+                
                   {% endif %}
-              </form>
-            {% endif %}
-            {% if request.user_role == "Teacher" %}
-                <a href="{% url 'view_submission' asmt.asgmt_id  asmt.class_name.subject%}" class="btn btn-primary">View Submissions</a>
-
-            {% endif %}
+                  {% if request.user_role == "Teacher" %}
+                      <a href="{% url 'view_submission' asmt.asgmt_id  asmt.class_name.subject%}" class="btn btn-primary mr-2">View Submissions</a>
+                  {% endif %}
+              </div>
             </div>
           </div>
-        </div>
-        {% endif %} {% endfor %}
+          {% endif %} 
+          {% endfor %}
       </div>
-    </div>
+  </div>
+  
     <div
       class="modal fade"
       id="staticBackdrop"
@@ -115,7 +117,7 @@
                   class="form-control"
                   aria-label="Sizing example input"
                   aria-describedby="inputGroup-sizing-sm"
-                  requried
+                  required
                 />
               </div>
               <div class="input-group input-group-sm mb-3">
@@ -129,7 +131,7 @@
                   class="form-control"
                   aria-label="Sizing example input"
                   aria-describedby="inputGroup-sizing-sm"
-                  requried
+                  required
                 />
               </div>
               <div class="input-group input-group-sm mb-3">
@@ -142,7 +144,7 @@
                   class="form-select"
                   aria-label="Sizing example input"
                   aria-describedby="inputGroup-sizing-sm"
-                  requried
+                  required
                 >
                   <option value="{{ course_name }}">{{ course_name }}</option>
                 </select>
@@ -170,7 +172,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Upload Material</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Upload Assignment</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="post" action="{% url 'assignment_upload' %}">
@@ -179,23 +181,20 @@
 
 
                     <div class="mb-3">
-                        <label for="formFile" class="form-label">Upload Material</label>
-                        <input class="form-control" type="file" id="formFile" name="file">
+                        <label for="formFile" class="form-label">Upload Assignment</label>
+                        <input class="form-control" type="file" id="formFile" name="file" required>
                         <input type="hidden" name="url" id="url">
                         <input type="hidden" name="file_name" id="file_name">
                         <input type="hidden" name="asmt_id" id="asmt_id">
                     </div>
-                    <div class="upload-container d-flex align-items-center">
-                        <button type="button" id="upload" class="btn btn-success">Upload</button>
-                        <div class="spinner-border text-dark "  style="margin-left: 5px" role="status" id="spinner1">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </div>
-
                 </div>
                 <div class="modal-footer">
+                  <div class="spinner-border text-dark "  style="margin-left: 5px" role="status" id="spinner1">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <button type="button" id="upload" class="btn btn-success">Upload</button>
+                  <button type="submit" class="btn btn-primary">Done</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Done</button>
                 </div>
                 </form>
             </div>

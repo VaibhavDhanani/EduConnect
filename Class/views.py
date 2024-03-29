@@ -3,9 +3,14 @@ import random
 import string
 from .models import *
 from django.urls import reverse
-
-
-# Create your views here.
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import IntegrityError
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 def generate_random_code(length=10):
@@ -19,26 +24,35 @@ def generate_random_code(length=10):
     return "".join(random.choices(string.ascii_uppercase + string.digits, k=length))
 
 
+from django.db import IntegrityError
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 def create_new_class(request):
     if request.method == "POST":
         subject_name = request.POST.get("subject_name")
         teacher_name = request.POST.get("teacher_name")
         if subject_name and teacher_name:
-            code = generate_random_code()
-            new_class = Class.objects.create(
-                code=code, subject=subject_name, teachername=teacher_name
-            )
-            class_ = Class.objects.get(code=code)
-            t_id = request.user_id
-            teacher = Teacher.objects.get(id=t_id)
-            record = Class_Teacher(class_id=class_, teacher_id=teacher)
-            record.save()
-            return redirect(reverse("classes"))
+            try:
+                code = generate_random_code()
+                new_class = Class.objects.create(
+                    code=code, subject=subject_name, teachername=teacher_name
+                )
+                t_id = request.user_id
+                teacher = Teacher.objects.get(id=t_id)
+                record = Class_Teacher(class_id=new_class, teacher_id=teacher)
+                record.save()
+                return redirect(reverse("classes"))
+            except IntegrityError:
+                messages.error(request, "Class with the same details already exists.")
+                return HttpResponseRedirect(reverse("home"))
         else:
-            return render(request, "aboutus.html")
+            return render(request, "home.html")
     else:
         classes = Class.objects.all()
         return render(request, "lecture.html", {"classes": classes})
+
 
 
 def create_new_lecture(request):
@@ -120,17 +134,22 @@ def join_class(request):
         code = request.POST.get("class_code")
 
         if code:
-            class_ = Class.objects.filter(code=code)
-            if class_.exists():
-                get_class = class_.first()
-                print(request.user_id)
+            try:
+                get_class = Class.objects.get(code=code)
                 user = Student.objects.get(id=request.user_id)
                 record = Class_Student(class_id=get_class, student_id=user)
-                print(record)
                 record.save()
                 return redirect(reverse("classes"))
-            else:
-                return render(request, "error_page.html", {"message": "Class does not exist"})
+            except ObjectDoesNotExist:
+                messages.error(request, "Class does not exist.")
+                return HttpResponseRedirect(reverse("home"))
+            except IntegrityError:
+                messages.error(request, "You are already enrolled in this class.")
+                return HttpResponseRedirect(reverse("home"))
+        else:
+            messages.error(request, "Please provide appropriate Code")
+            return HttpResponseRedirect(reverse("home"))
+            
 
 
 def assignment_upload(request):
@@ -148,5 +167,6 @@ def assignment_upload(request):
             submission.save()
             return redirect(reverse("Assignments", kwargs={"course_name": assignment.class_name.subject}))
         else:
-            print("Missing required fields")
+            messages.error(request, "Missing fields requried ")
+            return HttpResponseRedirect(reverse("home"))
 

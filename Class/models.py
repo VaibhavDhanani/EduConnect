@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.hashers import make_password, check_password
 from django.utils.translation import gettext as _
@@ -16,14 +17,6 @@ class Class(models.Model):
 class Student(models.Model):
     id = models.CharField(primary_key=True, max_length=50)
     name = models.CharField(max_length=100)
-
-    # email = models.EmailField(_("Email"), max_length=254)
-    # password = models.CharField(_("Password"), max_length=128)
-    # def set_password(self, raw_password):
-    #     self.password = make_password(raw_password)
-    # def check_password(self, raw_password):
-    #     return check_password(raw_password, self.password)
-
     class Meta:
         db_table = "Student"
 
@@ -108,6 +101,7 @@ class Assignment(models.Model):
         to_field="subject",
         db_column="class_name",
         null=False,
+        default="ok"
     )
 
     class Meta:
@@ -146,6 +140,7 @@ class Submission(models.Model):
     )
     link = models.URLField(max_length=250, null=False)
     name = models.CharField(max_length=50, null=False)
+    date = models.DateField(auto_now_add=True)
 
     class Meta:
         db_table = 'Submission'

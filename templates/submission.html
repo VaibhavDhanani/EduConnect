@@ -1,19 +1,51 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+{% block content %} 
 {% load static %}
-    <div id="main-content">
-        <div class="container mt-4">
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
-                {% for sub in submission %}
-                        <div class="col mb-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-subtitle mb-2 my-2 text-muted">Student :- {{sub.student_id.name}}</h5>
-                                    <a type="button" href="{{ sub.link }}" target="_blank" class="btn btn-primary" >View</a>
-                                </div>
-                            </div>
-                        </div>
-                     {% endfor %}
-            </div>
-        </div>
+{% load custom_filter %} 
+
+<div class="container mt-4">
+    <h1 class="mx-auto my-4" style="color: #a31c00;" ><b>Submission Info :- </b></h1>
+    <div class="row">
+    <div class="col">
+      <div class="table-responsive">
+        <table class="table table-bordered text-center table-success table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Student Name</th>
+              <th scope="col">Submission</th>
+              <th scope="col">Assignment</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for student in students %}
+                <tr>
+                    <td class="h5 pl-3">{{ forloop.counter }}</td>
+                    <td class="h4 pl-3">{{ student.name }}</td>
+                    {% with sub=submissions|get_submission_by_student_id:student.id %}
+                        {% if sub %}
+                        <td class="{% if sub.date > sub_date %}bg-danger{% elif not sub.date %}bg-danger{% else %}bg-success{% endif %}">
+                            {% if sub.date < sub_date %}
+                                In time
+                            {% else %}
+                                Late
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a type="button" href="{{ sub.link }}" target="_blank" class="btn btn-primary">View</a>
+                        </td> 
+                        {% else %}
+                        <td style="background-color: #FFEA00">Not Submitted </td>
+                        <td>Not Submitted </td>
+                        {% endif %}
+                    {% endwith %}
+                </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
+</div>
 {% endblock content %}
