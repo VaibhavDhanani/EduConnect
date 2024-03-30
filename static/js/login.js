@@ -78,6 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.catch((error) => {
 				const errorCode = error.code;
 				const errorMessage = error.message;
+				alert(errorCode)
 			});
 	});
 
@@ -101,8 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						document.cookie = `role=${doc.data().role}`
 
 					} else {
-						// doc.data() will be undefined in this case
-						console.log("No such document!");
+
 					}
 				});
 				document.cookie = `uid=${uid}`
@@ -111,6 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.catch((error) => {
 				const errorCode = error.code;
 				const errorMessage = error.message;
+				alert(errorCode)
 			});
 	});
 });

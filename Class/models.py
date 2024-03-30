@@ -144,8 +144,4 @@ class Submission(models.Model):
 
     class Meta:
         db_table = 'Submission'
-        constraints = [
-            models.UniqueConstraint(
-                fields=["asgmt_id"], name="unique_submission"
-            )
-        ]
+
