@@ -122,7 +122,6 @@ def assignment(request, course_name):
 def aboutus(request):
     return render(request, "aboutus.html")
 
-
 def notes(request):
     materials = Material.objects.all()
     context = {"materials": materials}

@@ -5,13 +5,8 @@ from .models import *
 from django.urls import reverse
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
-from django.contrib import messages
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-
 
 def generate_random_code(length=10):
     while True:
@@ -24,10 +19,7 @@ def generate_random_code(length=10):
     return "".join(random.choices(string.ascii_uppercase + string.digits, k=length))
 
 
-from django.db import IntegrityError
-from django.contrib import messages
-from django.http import HttpResponseRedirect
-from django.urls import reverse
+
 
 def create_new_class(request):
     if request.method == "POST":
