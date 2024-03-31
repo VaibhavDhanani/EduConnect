@@ -22,6 +22,8 @@ def generate_random_code(length=10):
 
 
 def create_new_class(request):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     if request.method == "POST":
         subject_name = request.POST.get("subject_name")
         teacher_name = request.POST.get("teacher_name")
@@ -49,6 +51,8 @@ def create_new_class(request):
 
 
 def create_new_lecture(request):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     if request.method == "POST":
         title = request.POST.get("lecture_title")
         class_name_str = request.POST.get("class_name")
@@ -75,6 +79,8 @@ def create_new_lecture(request):
 
 
 def new_material_upload(request):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     if request.method == "POST":
         title = request.POST.get("title")
         link = request.POST.get("url")
@@ -91,6 +97,8 @@ def new_material_upload(request):
 
 
 def create_new_assignment(request):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     if request.method == "POST":
         title = request.POST.get("assignment_title")
         date = request.POST.get("sub_date")
@@ -104,6 +112,8 @@ def create_new_assignment(request):
 
 
 def delete_material(request, material_id):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     material = Material.objects.get(material_id=material_id)
     course_name = material.class_id.subject
     material.delete()
@@ -111,11 +121,15 @@ def delete_material(request, material_id):
 
 
 def delete_class(request, class_name):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     Class.objects.filter(subject=class_name).delete()
     return redirect(reverse("classes"))
 
 
 def delete_lecture(request, lec_id):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     lec = Lecture.objects.get(lec_id=lec_id)
     course_name = lec.class_name.subject
     lec.delete()
@@ -123,6 +137,8 @@ def delete_lecture(request, lec_id):
 
 
 def join_class(request):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     if request.method == "POST":
         code = request.POST.get("class_code")
 
@@ -146,6 +162,8 @@ def join_class(request):
 
 
 def assignment_upload(request):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     if request.method == "POST":
         s_id = request.user_id
         student = Student.objects.get(id=s_id)
