@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from Class.models import *
 from django.http import HttpResponse
 import ntplib
@@ -10,6 +10,9 @@ def login(request):
 
 
 def home(request):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
+
     if "name" in request.COOKIES:
         if request.COOKIES.get("role") == "Teacher":
             record = Teacher(
@@ -28,6 +31,10 @@ def home(request):
 
 
 def classes(request):
+
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
+
     classes = Class.objects.all()
     role = request.user_role
     name = request.COOKIES.get("name")
@@ -55,11 +62,17 @@ def classes(request):
 
 
 def class_details(request, course_name):
+
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     context = {'course_name': course_name}
     return render(request, "class_details.html", context)
 
 
 def lecture(request, course_name):
+
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     classes = Class.objects.all()
     lectures = Lecture.objects.filter()
     context = {
@@ -86,6 +99,9 @@ def get_current_date_ntp():
 
 
 def assignment(request, course_name):
+
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     current_date = get_current_date_ntp()
     context = {}
     if request.user_role == "Teacher":
@@ -112,7 +128,7 @@ def assignment(request, course_name):
         print(sub_set)
         if len(sub_set) == 0:
             sub_set = {'None': 'None'}
-        
+
         context = {'course_name': course_name, 'assignments': asmt, "current_date": current_date,
                    "sub_set": sub_set}
 
@@ -120,16 +136,22 @@ def assignment(request, course_name):
 
 
 def aboutus(request):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     return render(request, "aboutus.html")
 
 
 def notes(request):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     materials = Material.objects.all()
     context = {"materials": materials}
     return render(request, "notes.html", context)
 
 
 def materials(request, course_name):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     materials = Material.objects.all()
     class_data = Class.objects.filter(subject=course_name).first()
     context = {"materials": materials, "class_code": class_data}
@@ -137,14 +159,18 @@ def materials(request, course_name):
 
 
 def delete_submission(request, sid, course_name):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     obj = Submission.objects.filter(sub_id=sid)
     obj.delete()
     return assignment(request, course_name)
 
 
 def view_submission(request, aid, course_name):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
     obj = Submission.objects.filter(asgmt_id=aid).filter(asgmt_id__class_name__subject=course_name)
     asmt_date = Assignment.objects.get(asgmt_id=aid).date
     students = Student.objects.all()
-    context = { "students": students ,"submissions": obj,"sub_date" : asmt_date}
+    context = {"students": students, "submissions": obj, "sub_date": asmt_date}
     return render(request, "submission.html", context)
