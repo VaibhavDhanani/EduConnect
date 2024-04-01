@@ -170,6 +170,9 @@ def view_submission(request, aid, course_name):
         return redirect("/")
     obj = Submission.objects.filter(asgmt_id=aid).filter(asgmt_id__class_name__subject=course_name)
     asmt_date = Assignment.objects.get(asgmt_id=aid).date
-    students = Student.objects.all()
-    context = {"students": students, "submissions": obj, "sub_date": asmt_date}
+    class_obj = Class.objects.get(subject=course_name)
+    student_ids = Class_Student.objects.filter(class_id=class_obj.code).values_list('student_id', flat=True)
+    students = Student.objects.filter(id__in=student_ids)
+    context = {"students": students, "submissions": obj, "sub_date": asmt_date,"course_name":course_name}
     return render(request, "submission.html", context)
+

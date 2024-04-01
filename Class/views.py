@@ -20,7 +20,6 @@ def generate_random_code(length=10):
 
 
 
-
 def create_new_class(request):
     if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
         return redirect("/")
