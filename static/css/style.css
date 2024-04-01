@@ -29,7 +29,7 @@
 }
 
 .bg-image {
-    background-image: url('https://images.unsplash.com/photo-1603204254626-d0de8eb24cf1?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); /* Specify the path to your image */
+    background-image: url('https://img.freepik.com/free-vector/white-abstract-background_23-2148810113.jpg?t=st=1711950248~exp=1711950848~hmac=b0801fdefadaed317145f15a6bf1e95e7da801fb99f325ff702f68733cd84272'); 
     background-size: cover; 
     background-repeat: no-repeat;
 }
