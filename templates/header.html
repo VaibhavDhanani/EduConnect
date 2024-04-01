@@ -32,7 +32,7 @@
     }
     body {
         height: 150vh;
-        background-color: #76b7ff;
+        background-color: whitesmoke;
     }
     nav {
         background-image: url('https://t3.ftcdn.net/jpg/07/04/22/20/240_F_704222087_aBOqAZavtdn1gyDt2ARLcrcc4Nq48oVu.jpg'); 
@@ -84,18 +84,15 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{% url "home" %}">Home</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navdd" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Navigate To
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navdd">
-                    <a class="dropdown-item" href="{% url 'classes' %}">Classes</a>
-                    <a class="dropdown-item" href="{% url 'notes' %}">Notes</a>
-                    <a class="dropdown-item" href="{% url 'aboutus' %}">About Us</a>
-                </div>
-                
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'classes' %}">Classes</a>
             </li>
-
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'notes' %}">Notes</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'aboutus' %}">About Us</a>
+            </li>
         </ul>
     </div>
     <a class="nav-link" id="sign_out" style="margin-right:3% ; cursor: pointer">Sign Out</a>
