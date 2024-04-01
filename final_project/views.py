@@ -31,7 +31,6 @@ def home(request):
 
 
 def classes(request):
-
     if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
         return redirect("/")
 
@@ -62,7 +61,6 @@ def classes(request):
 
 
 def class_details(request, course_name):
-
     if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
         return redirect("/")
     context = {'course_name': course_name}
@@ -70,7 +68,6 @@ def class_details(request, course_name):
 
 
 def lecture(request, course_name):
-
     if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
         return redirect("/")
     classes = Class.objects.all()
@@ -99,7 +96,6 @@ def get_current_date_ntp():
 
 
 def assignment(request, course_name):
-
     if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
         return redirect("/")
     current_date = get_current_date_ntp()
@@ -140,6 +136,7 @@ def aboutus(request):
         return redirect("/")
     return render(request, "aboutus.html")
 
+
 def notes(request):
     if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
         return redirect("/")
@@ -173,6 +170,14 @@ def view_submission(request, aid, course_name):
     class_obj = Class.objects.get(subject=course_name)
     student_ids = Class_Student.objects.filter(class_id=class_obj.code).values_list('student_id', flat=True)
     students = Student.objects.filter(id__in=student_ids)
-    context = {"students": students, "submissions": obj, "sub_date": asmt_date,"course_name":course_name}
+    context = {"students": students, "submissions": obj, "sub_date": asmt_date, "course_name": course_name}
     return render(request, "submission.html", context)
 
+
+def delete_assignment(request, assignment_id, course_name):
+    if request.user_role == "default" or request.user_id == "default" or request.user_name == "default":
+        return redirect("/")
+    Assignment.objects.filter(asgmt_id=assignment_id).delete()
+    Submission.objects.filter(asgmt_id=assignment_id).delete()
+    # return redirect(request, "/Assignments/" + course_name)
+    return redirect("/Assignments/" + course_name)

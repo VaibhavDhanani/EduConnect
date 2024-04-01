@@ -67,7 +67,8 @@
                 
                   {% endif %}
                   {% if request.user_role == "Teacher" %}
-                      <a href="{% url 'view_submission' asmt.asgmt_id  asmt.class_name.subject%}" class="btn btn-primary mr-2">View Submissions</a>
+                      <a href="{% url 'view_submission' asmt.asgmt_id  asmt.class_name.subject%}" class="btn btn-primary mr-2">View </a>
+                      <a href="{% url 'delete_assignment' asmt.asgmt_id  asmt.class_name.subject%}" class="btn   btn btn-danger">Delete</a>
                   {% endif %}
               </div>
             </div>
