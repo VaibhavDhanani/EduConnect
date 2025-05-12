@@ -26,7 +26,9 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 PRODUCTION_HOST = config("PRODUCTION_HOST")
 
 ALLOWED_HOSTS = [PRODUCTION_HOST]
-
+CSRF_TRUSTED_ORIGINS = [
+    PRODUCTION_HOST
+]
 # Application definition
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
