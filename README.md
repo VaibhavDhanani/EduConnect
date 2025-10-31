@@ -104,7 +104,7 @@ Learn more about the EduConnect platform
 
 ```bash
 # Clone the repository
-git clone [repository-url]
+git clone https://github.com/VaibhavDhanani/EduConnect.git
 
 # Navigate to project directory
 cd educonnect
@@ -124,4 +124,3 @@ python manage.py runserver
 - **Schools & Universities:** Manage courses and student assignments
 - **Online Education:** Facilitate remote learning environments
 - **Training Programs:** Organize professional development courses
-- **Tutoring Services:**
